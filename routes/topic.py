@@ -1,8 +1,31 @@
-import time
-from models import Model
+from flask import render_template, request, redirect, url_for, Blueprint
+from routes import *
+
+from models.topic import Topic
+
+main = Blueprint('topic', __name__)
 
 
-class Topic(Model):
-    def __init__(self, form):
-        self.id = None
-        self.views = 0
+@main.route("/")
+def index():
+    ms = Topic.all()
+    return render_template("topic/index.html", ms=ms)
+
+
+@main.route("/<int:id>")
+def detail(id):
+    m = Topic.get(id)
+    return render_template("topic/detail.html", topic=m)
+
+
+@main.route("/new")
+def new():
+    return render_template("topic/new.html")
+
+
+@main.route("/add", methods=["POST"])
+def add():
+    form = request.form
+    u = current_user()
+    m = Topic.new(form, user_id=u.id)
+    return redirect(url_for('.detail', id=m.id))
