@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Board-Admin</title>
+    <style>a{TEXT-DECORATION:none}</style>
 </head>
 <body>
     <form action="/board/add" method="post">
@@ -10,5 +11,13 @@
         <br>
         <button>添加</button>
     </form>
+    <span>现有的版块</span>
+    {% for b in bs %}
+        {{ b.board_name }}
+    <!--<a href="/board?delete={{ b.id }}">删除</a>-->
+    <a  href="{{ url_for('board.delete', id=b.id, token=token) }}">
+                              <button>删除</button>
+    </a>
+    {% endfor %}
 </body>
 </html>

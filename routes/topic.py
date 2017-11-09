@@ -18,11 +18,12 @@ def index():
     token = str(uuid.uuid4())
     csrf_tokens.add(token)
     board_id = int(request.args.get("board_id", 0))
-    print(board_id)
     if board_id == 0:
         ms = Topic.all()
     else:
-        ms = Topic.find_all(board_id=board_id)
+        ms1 = Topic.find_all(board_id=0)
+        ms2 = Topic.find_all(board_id=board_id)
+        ms = ms1 + ms2
     bs = Board.all()
     return render_template("topic/index.html", ms=ms, token=token, bs=bs)
 

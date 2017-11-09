@@ -1,5 +1,6 @@
 import time
 from models import Model
+from utils import log
 
 
 class Topic(Model):
@@ -25,9 +26,16 @@ class Topic(Model):
         ms = Reply.find_all(topic_id=self.id)
         return ms
 
-
-    def board(self):
+    def board_name(self):
         from .board import Board
         m = Board.find(self.board_id)
-        return m
+        # log('board', m)
+        return m.board_name
+
+    def user_name(self):
+        from .user import User
+        m = User.find(self.user_id)
+        log('user', m)
+        return m.username
+
 

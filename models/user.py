@@ -1,10 +1,21 @@
 from models import Model
 
+#
+# def admin_permission(self, id):
+#     def wrapper():
+#         m = self.find_by(id=id)
+#         if m.role == 1:
+#             return True
+#         else:
+#             return False
+#     return wrapper
+
 class User(Model):
     def __init__(self, form):
         self.id = form.get('id', None)
         self.username = form.get('username', '')
         self.password = form.get('password', '')
+        self.role = 11
 
     def salted_password(self, password, salt='gsjkkfwk@!#'):
         import hashlib
@@ -41,3 +52,6 @@ class User(Model):
             return user
         else:
             return None
+
+
+
