@@ -4,6 +4,7 @@ from utils import log
 
 from models.topic import Topic
 from models.reply import Reply
+from models.board import Board
 
 main = Blueprint('topic', __name__)
 
@@ -14,10 +15,16 @@ csrf_tokens = set()
 
 @main.route("/")
 def index():
-    ms = Topic.all()
     token = str(uuid.uuid4())
     csrf_tokens.add(token)
-    return render_template("topic/index.html", ms=ms, token=token)
+    board_id = int(request.args.get("board_id", 0))
+    print(board_id)
+    if board_id == 0:
+        ms = Topic.all()
+    else:
+        ms = Topic.find_all(board_id=board_id)
+    bs = Board.all()
+    return render_template("topic/index.html", ms=ms, token=token, bs=bs)
 
 
 @main.route("/<int:id>")
@@ -28,7 +35,8 @@ def detail(id):
 
 @main.route("/new")
 def new():
-    return render_template("topic/new.html")
+    bs = Board.all()
+    return render_template("topic/new.html", bs=bs)
 
 
 @main.route("/add", methods=["POST"])

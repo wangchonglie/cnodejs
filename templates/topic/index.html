@@ -25,6 +25,13 @@
     </div>
     <div id="content">
         <div class="panel">
+            <div class="header">
+                {% for b in bs %}
+                    <a href="/topic?board_id={{ b.id }}" class="topic-tab current-tab">
+                    {{ b.board_name }}
+                    </a>
+                {% endfor %}
+            </div>
             <div class="inner post">
                 <div class="topic_list">
                     {% for m in ms %}
@@ -50,6 +57,7 @@
     var editor = new Editor();
     editor.render($('.editor')[0]);
   })();
+
 </script>
 </body>
 </html>
