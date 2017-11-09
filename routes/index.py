@@ -10,6 +10,7 @@ from flask import (
 from utils import log
 from models.user import User
 
+
 def current_user():
     # 从session 中找到user_id 字段，找不到就 -1
     # 然后 User.find_by 来用id 找用户
@@ -44,4 +45,6 @@ def login():
         return redirect(url_for('.index'))
     else:
         log('登录成功')
-        return redirect(url_for('.index'))
+        session['user_id'] = u.id
+        session.permanent = True
+        return redirect(url_for('topic.index'))

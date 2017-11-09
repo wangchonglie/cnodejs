@@ -116,7 +116,21 @@ class Model(object):
             path = cls.db_path()
             save(l, path)
             # 返回被删除的元素
-            return obj
+            return obj    \
+
+    @classmethod
+    def delete_reply(cls, topic_id):
+        models = cls.all()
+        index = -1
+        for i, e in enumerate(models):
+            if e.topic_id == topic_id:
+                index = i
+                obj = models.pop(index)
+                l = [m.__dict__ for m in models]
+                path = cls.db_path()
+                save(l, path)
+                # 返回被删除的元素
+                return obj
 
     def __repr__(self):
         """
