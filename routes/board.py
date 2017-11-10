@@ -11,8 +11,7 @@ csrf_tokens = set()
 
 
 @main.route("/admin")
-# @admin_permission
-# @admin_permission(test_Func)
+@admin_permission
 def index():
     token = str(uuid.uuid4())
     csrf_tokens.add(token)

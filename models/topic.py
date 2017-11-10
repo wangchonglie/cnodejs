@@ -38,4 +38,9 @@ class Topic(Model):
         log('user', m)
         return m.username
 
+    def user(self):
+        from models.user import User
+        m = User.find(self.id)
+        return m
+
 

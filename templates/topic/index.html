@@ -20,6 +20,9 @@
                 <a href="/topic/new" class="create_topic_btn">
                     <span class="span-success">发布话题</span>
                 </a>
+                <a href="/topic/logout" class="create_topic_btn">
+                    <span class="span-success">退出登录</span>
+                </a>
             </div>
         </div>
     </div>
@@ -37,6 +40,9 @@
                     {% for m in ms %}
                     <div class="cell">
                         <div class="topic_title_wrapper">
+                            <a class="user_avatar pull-left">
+    <img src="{{'/uploads/' + m.user().user_image + '?v=1&amp;s=30'}}" height="200" width="200"/>
+</a>
                             <a class="topic_title" href="{{ url_for('topic.detail', id=m.id) }}">
                                 {{ m.title }}
                             </a>

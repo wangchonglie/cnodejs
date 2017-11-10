@@ -12,6 +12,7 @@ from utils import log
 from models.user import User
 from config import accept_user_file_type, user_file_director
 from werkzeug.utils import secure_filename
+from routes import *
 
 
 def current_user():
@@ -39,6 +40,7 @@ def register():
 
 
 @main.route("/profile")
+@login_permission
 def profile():
     u = current_user()
     return render_template("profile.html", user=u)
@@ -56,6 +58,7 @@ def login():
         log('登录成功')
         session['user_id'] = u.id
         session.permanent = True
+        log('session', session)
         return redirect(url_for('topic.index'))
 
 
@@ -67,7 +70,6 @@ def allow_file(filename):
 @main.route('/addimg', methods=["POST"])
 def add_img():
     u = current_user()
-
     if 'file' not in request.files:
         return redirect(request.url)
 

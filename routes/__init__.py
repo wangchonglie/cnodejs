@@ -10,6 +10,18 @@ def current_user():
     return u
 
 
+def login_permission(f):
+    @wraps(f)
+    def decorator(*args, **kwargs):
+        u = current_user()
+        if u is None:
+            log('未登录')
+            abort(403)
+        else:
+            return f(*args, **kwargs)
+    return decorator
+
+
 def admin_permission(f):
     @wraps(f)
     def decorator(*args, **kwargs):

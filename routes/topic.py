@@ -40,6 +40,12 @@ def new():
     return render_template("topic/new.html", bs=bs)
 
 
+@main.route("/logout")
+def logout():
+    session['user_id'] = None
+    return redirect(url_for('index.index'))
+
+
 @main.route("/add", methods=["POST"])
 def add():
     form = request.form
