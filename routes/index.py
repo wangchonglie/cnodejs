@@ -1,3 +1,4 @@
+import os
 from flask import (
     render_template,
     request,
@@ -5,10 +6,12 @@ from flask import (
     session,
     url_for,
     Blueprint,
-    make_response,
+    send_from_directory,
 )
 from utils import log
 from models.user import User
+from config import accept_user_file_type, user_file_director
+from werkzeug.utils import secure_filename
 
 
 def current_user():
@@ -35,6 +38,12 @@ def register():
     return redirect(url_for('.index'))
 
 
+@main.route("/profile")
+def profile():
+    u = current_user()
+    return render_template("profile.html", user=u)
+
+
 @main.route("/login", methods=["POST"])
 def login():
     form = request.form
@@ -48,3 +57,33 @@ def login():
         session['user_id'] = u.id
         session.permanent = True
         return redirect(url_for('topic.index'))
+
+
+def allow_file(filename):
+    suffix = filename.split('.')[-1]
+    return suffix in accept_user_file_type
+
+
+@main.route('/addimg', methods=["POST"])
+def add_img():
+    u = current_user()
+
+    if 'file' not in request.files:
+        return redirect(request.url)
+
+    file = request.files['file']
+    if file.filename == '':
+        return redirect(request.url)
+
+    if allow_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(user_file_director, filename))
+        u.user_image = filename
+        u.save()
+
+    return redirect(url_for(".profile"))
+
+
+@main.route("/uploads/<filename>")
+def uploads(filename):
+    return send_from_directory(user_file_director, filename)

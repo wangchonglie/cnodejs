@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<a class="user_avatar pull-left" href="/user/i5ting">
+    <img src="{{'/uploads/' + user.user_image + '?v=1&amp;s=30'}}" height="200" width="200"/>
+</a>
+<h1>个人资料页面</h1>
+<span>您的ID是：{{ user.id }}</span>
+<br>
+<span>您的昵称是：{{ user.username }}</span>
+<br>
+<span>您的角色是：
+    {% if user.id == 1 %}
+        管理员
+    {% else %}
+        普通用户
+    {% endif %}
+    </span>
+<h1>上传新的照片</h1>
+<form method="post" action={{ url_for(
+".add_img") }} enctype=multipart/form-data>
+<input type="file" name="file">
+<input type="submit" value="确认上传 ">
+</form>
+</body>
+</html>
