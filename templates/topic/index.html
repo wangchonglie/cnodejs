@@ -50,6 +50,10 @@
                             <a class="topic_title" href="{{ url_for('topic.delete', id=m.id, token=token) }}">
                                 删除
                             </a>
+                            <!--<a class="topic_title1" href="" id=m.id, token=token>-->
+                                <!--删除-->
+                            <!--</a>-->
+
                         </div>
                     </div>
                     {% endfor %}
@@ -58,12 +62,32 @@
         </div>
     </div>
 </div>
-<script>
-  (function () {
-    var editor = new Editor();
-    editor.render($('.editor')[0]);
-  })();
+<!--<script>-->
+  <!--(function () {-->
+    <!--var editor = new Editor();-->
+    <!--editor.render($('.editor')[0]);-->
+  <!--})();-->
 
-</script>
+<!--</script>-->
+<!--<script type="text/javascript">-->
+    <!--$(".topic_title").on('click', doDelete);-->
+
+    <!--function doDelete(){-->
+        <!--var _id = $(this).attr('id');-->
+        <!--var _token = $(this).attr('token');-->
+    <!--$.ajax({-->
+        <!--url: "topic/delete",-->
+        <!--data: {'id':_id,'token':_token},-->
+        <!--dataType: 'json',-->
+        <!--success: function(json) {-->
+            <!--alert('删除成功');-->
+            <!--$("#topic.id").remove();-->
+        <!--},-->
+        <!--error:function(){-->
+            <!--alert('网络错误，删除失败')-->
+        <!--}-->
+    <!--});-->
+    <!--}-->
+<!--</script>-->
 </body>
 </html>
