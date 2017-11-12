@@ -47,9 +47,7 @@
                                 {{ m.title }}
                             </a>
                             <span>{{ m.replies() | count }} / {{ m.views-1 }}</span>
-                            <a class="topic_title" href="{{ url_for('topic.delete', id=m.id, token=token) }}">
-                                删除
-                            </a>
+
                         </div>
                     </div>
                     {% endfor %}
