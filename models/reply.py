@@ -1,9 +1,9 @@
 import time
-from .mongo import Charley
+from .mongo import Mongo
 
 
-class Reply(Charley):
-    __fields__ = Charley.__fields__ + [
+class Reply(Mongo):
+    __fields__ = Mongo.__fields__ + [
         ('content', str, ''),
         ('topic_id', int, -1),
         ('receiver_id', int, -1),

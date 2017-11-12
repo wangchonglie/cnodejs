@@ -41,19 +41,15 @@
                     <div class="cell">
                         <div class="topic_title_wrapper">
                             <a class="user_avatar pull-left">
-    <img src="{{'/uploads/' + m.user().user_image + '?v=1&amp;s=30'}}" height="200" width="200"/>
-</a>
+                                <img src="{{'/uploads/' + m.user().user_image + '?v=1&amp;s=30'}}" height="200" width="200"/>
+                            </a>
                             <a class="topic_title" href="{{ url_for('topic.detail', id=m.id) }}">
                                 {{ m.title }}
                             </a>
-                            <span>{{ m.replies() | count }} / {{ m.views-1 }}   </span>
+                            <span>{{ m.replies() | count }} / {{ m.views-1 }}</span>
                             <a class="topic_title" href="{{ url_for('topic.delete', id=m.id, token=token) }}">
                                 删除
                             </a>
-                            <!--<a class="topic_title1" href="" id=m.id, token=token>-->
-                                <!--删除-->
-                            <!--</a>-->
-
                         </div>
                     </div>
                     {% endfor %}

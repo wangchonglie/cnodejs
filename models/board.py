@@ -1,6 +1,6 @@
 import time
 from models import Model
-from models.mongo import Charley
+from models.mongo import Mongo
 
 # class Board(Model):
 #     def __init__(self, form):
@@ -10,7 +10,9 @@ from models.mongo import Charley
 #         self.ut = self.ct
 
 
-class Board(Charley):
-    __fields__ = Charley.__fields__ + [
-        ('title', str, '')
+class Board(Mongo):
+    __fields__ = Mongo.__fields__ + [
+        ('board_name', str, ''),
+        ('deleted', bool, False),
     ]
+

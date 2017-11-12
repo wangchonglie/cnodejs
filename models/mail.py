@@ -1,6 +1,6 @@
 import time
 # from models import Model
-from .mongo import Charley
+from .mongo import Mongo
 
 
 # class Mail(Model):
@@ -22,8 +22,8 @@ from .mongo import Charley
 #         self.save()
 
 
-class Mail(Charley):
-    __fields__ = Charley.__fields__ + [
+class Mail(Mongo):
+    __fields__ = Mongo.__fields__ + [
         ('title', str, ''),
         ('content', str, ''),
         ('read', bool, False),

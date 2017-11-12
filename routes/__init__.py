@@ -29,7 +29,7 @@ def admin_permission(f):
         if u is None:
             log('未登录')
             abort(403)
-        elif u.id == 1:
+        elif u.role == 11:
             log('管理员')
             return f(*args, **kwargs)
         else:

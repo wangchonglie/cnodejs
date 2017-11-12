@@ -1,10 +1,10 @@
 import time
-from .mongo import Charley
+from .mongo import Mongo
 from utils import log
 
 
-class Topic(Charley):
-    __fields__ = Charley.__fields__ + [
+class Topic(Mongo):
+    __fields__ = Mongo.__fields__ + [
         ('views', int, 0),
         ('title', str, ''),
         ('content', str, ''),
@@ -37,7 +37,8 @@ class Topic(Charley):
 
     def user(self):
         from models.user import User
-        m = User.find(self.id)
+        m = User.find(self.user_id)
+        log('user', m)
         return m
 
 

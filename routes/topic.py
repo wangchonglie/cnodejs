@@ -16,6 +16,7 @@ csrf_tokens = set()
 @main.route("/")
 def index():
     token = str(uuid.uuid4())
+    log('token1', token)
     csrf_tokens.add(token)
     board_id = int(request.args.get("board_id", 0))
     if board_id == 0:
@@ -25,6 +26,7 @@ def index():
         ms2 = Topic.find_all(board_id=board_id)
         ms = ms1 + ms2
     bs = Board.all()
+    log('ms的值',ms)
     return render_template("topic/index.html", ms=ms, token=token, bs=bs)
 
 
@@ -57,14 +59,24 @@ def add():
 @main.route("/delete")
 def delete():
     delete_id = int(request.args.get('id'))
+    delete_name = Topic.find(delete_id)
     token = request.args.get('token')
+    log('token2', token)
     u = current_user()
+    log('u', u)
+    log(token in csrf_tokens)
+    log('csrf_tokens', csrf_tokens)
     if token in csrf_tokens:
         csrf_tokens.remove(token)
+        log('1')
         if u is not None:
-            Topic.delete(delete_id)
-            for i in range(len(Reply.find_all(topic_id=delete_id))):
-                Reply.delete_reply(delete_id)
+            delete_name.delete()
+            log('reply',Reply.find_all(topic_id=delete_id))
+            rs = Reply.find_all(topic_id=delete_id)
+            for r in rs:
+                r.delete()
+                
             return redirect(url_for('.index'))
     else:
+        log('没有删除权限')
         abort(403)

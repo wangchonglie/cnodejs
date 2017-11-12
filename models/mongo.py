@@ -1,5 +1,6 @@
 import time
 from pymongo import MongoClient
+from utils import log
 
 Charley = MongoClient()
 
@@ -20,7 +21,7 @@ def next_id(name):
     kwargs = {
         'query': query,
         'update': update,
-        'upset': True,
+        'upsert': True,
         'new': True,
     }
     # 存储数据的id
@@ -48,12 +49,12 @@ class Mongo(object):
         return cls.find_one(**kwargs) is not None
 
     def mongos(self, name):
-        return Charley.db[name].find()
+        return Charley.db[name]._find()
 
     def __repr__(self):
         class_name = self.__class__.__name__
         properties = ('{0} = {1}'.format(k, v) for k, v in self.__dict__.items())
-        return '<{0}: \n  {1}\n>.'.format(class_name, '\n '.join(properties))
+        return '<{0}: \n  {1}\n>'.format(class_name, '\n  '.join(properties))
 
     @classmethod
     def new(cls, form=None, **kwargs):
@@ -79,7 +80,7 @@ class Mongo(object):
             if hasattr(m, k):
                 setattr(m, k, v)
             else:
-                return KeyError
+                raise KeyError
         # 写入默认数据
         m.id = next_id(name)
         ts = int(time.time())
@@ -132,19 +133,20 @@ class Mongo(object):
         # mongo数据查询
         name = cls.__name__
         # TODO 过滤掉被删除的元素
-        # kwargs['deleted'] = False
+        kwargs['deleted'] = False
         flag_sort = '__sort'
         sort = kwargs.pop(flag_sort, None)
         ds = Charley.db[name].find(kwargs)
         if sort is not None:
             ds = ds.sort(sort)
         l = [cls._new_with_bson(d) for d in ds]
+
         return l
 
     @classmethod
     def _find_raw(cls, **kwargs):
         name = cls.__name__
-        ds = Charley.db[name].find(kwargs)
+        ds = Charley.db[name]._find(kwargs)
         l = [d for d in ds]
         return l
 
@@ -152,7 +154,7 @@ class Mongo(object):
     def _clean_field(cls, source, target):
         """
         清洗数据用的函数
-        例如 User.__clean_field('is_hidden', 'deleted')
+        例如 User._clean_field('is_hidden', 'deleted')
         把is_hidden字段全部复制为deleted字段
         """
         ms = cls._find()
@@ -182,7 +184,7 @@ class Mongo(object):
         """
         """
         # TODO 过滤掉被删除的元素
-        # kwargs['deleted'] = False
+        kwargs['deleted'] = False
         l = cls._find(**kwargs)
         # print('find one debug', kwargs, l)
         if len(l) > 0:
@@ -209,7 +211,7 @@ class Mongo(object):
 
     def save(self):
         name = self.__class__.__name__
-        mongua.db[name].save(self.__dict__)
+        Charley.db[name].save(self.__dict__)
 
     def delete(self):
         name = self.__class__.__name__
@@ -219,9 +221,9 @@ class Mongo(object):
         values = {
             'deleted': True
         }
-        Charley.db[name].update_one(query, values)
-        # self.deleted = True
-        # self.save()
+        # Charley.db[name].update_one(query, values)
+        self.deleted = True
+        self.save()
 
     def blacklist(self):
         b = [
