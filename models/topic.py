@@ -37,7 +37,7 @@ class Topic(Mongo):
 
     def user(self):
         from models.user import User
-        m = User.find(self.user_id)
+        m = User.find_by(id=self.user_id)
         return m
 
 

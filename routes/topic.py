@@ -42,7 +42,7 @@ def new():
 
 @main.route("/logout")
 def logout():
-    session['user_id'] = None
+    session.pop('user_id')
     return redirect(url_for('index.index'))
 
 

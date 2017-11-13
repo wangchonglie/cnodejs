@@ -26,17 +26,21 @@ def current_user():
 main = Blueprint('index', __name__)
 
 
-@main.route("/")
-def index():
-    u = current_user()
-    return render_template("index.html", user=u)
-
-
-@main.route("/register", methods=["POST"])
+@main.route("/register")
 def register():
+    return render_template("user/register.html")
+
+
+@main.route("/login")
+def login():
+    return render_template("user/login.html")
+
+
+@main.route("/to_register", methods=["POST"])
+def to_register():
     form = request.form
     u = User.register(form)
-    return redirect(url_for('.index'))
+    return redirect(url_for('.login'))
 
 
 @main.route("/profile")
@@ -48,19 +52,18 @@ def profile():
     return render_template("profile.html", user=u, current_user=now_user)
 
 
-@main.route("/login", methods=["POST"])
-def login():
+@main.route("/to_login", methods=["POST"])
+def to_login():
     form = request.form
     # log("登录里面的form有什么：", form)
     u = User.validate_login(form)
     if u is None:
         log('登录失败')
-        return redirect(url_for('.index'))
+        return redirect(url_for('.register'))
     else:
         log('登录成功')
         session['user_id'] = u.id
         session.permanent = True
-        log('session', session)
         return redirect(url_for('topic.index'))
 
 
