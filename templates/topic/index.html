@@ -1,11 +1,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>bbs club</title>
+    <title>CNode</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/lib/editor/editor.css">
     <link rel="stylesheet" href="/static/lib/webuploader/webuploader.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <script src="/static/lib/jquery-3.0.0.min.js"></script>
     <script src="/static/lib/markdownit.js"></script>
     <script src="/static/lib/webuploader/webuploader.withoutimage.js"></script>
@@ -13,15 +14,51 @@
     <script src="/static/lib/editor/ext.js"></script>
 </head>
 <body>
+<div class='navbar'>
+    <div class='navbar-inner'>
+        <div class='container'>
+            <a class='brand' href=''>
+                <img src="//o4j806krb.qnssl.com/public/images/cnodejs_light.svg"/>
+            </a>
+            <ul class='nav pull-right'>
+                <li><a href=''>首页</a></li>
+                <li>
+                    <a href='/my/messages'>
+                        未读消息
+                    </a>
+                </li>
+                <li><a href='/getstart'>新手入门</a></li>
+                <li><a href='/api'>API</a></li>
+                <li><a href="/about" target="">关于</a></li>
+                <li><a href='/setting'>设置</a></li>
+                {% if user %}
+                <li>
+                    <a href="/topic/logout" data-method="post" rel="nofollow">退出</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/login" data-method="post" rel="nofollow">登录</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
 <div id="main">
     <div id="sidebar">
         <div class="panel">
             <div class="inner">
+                {% if user %}
+                <a>
+                    <img src="{{'/uploads/' + user.user_image + '?v=1&amp;s=30'}}" height="50" width="30"/>
+                </a>
+                <a>
+                    <span>{{ user.username }}</span>
+                </a>
+                <br>
+                {% endif %}
                 <a href="/topic/new" class="create_topic_btn">
                     <span class="span-success">发布话题</span>
-                </a>
-                <a href="/topic/logout" class="create_topic_btn">
-                    <span class="span-success">退出登录</span>
                 </a>
             </div>
         </div>
@@ -30,9 +67,9 @@
         <div class="panel">
             <div class="header">
                 {% for b in bs %}
-                    <a href="/topic?board_id={{ b.id }}" class="topic-tab current-tab">
+                <a href="/topic?board_id={{ b.id }}" class="topic-tab current-tab">
                     {{ b.board_name }}
-                    </a>
+                </a>
                 {% endfor %}
             </div>
             <div class="inner post">
@@ -41,12 +78,16 @@
                     <div class="cell">
                         <div class="topic_title_wrapper">
                             <a class="user_avatar pull-left">
-                                <img src="{{'/uploads/' + m.user().user_image + '?v=1&amp;s=30'}}" height="200" width="200"/>
+                                <img src="{{'/uploads/' + m.user().user_image + '?v=1&amp;s=30'}}" height="200"
+                                     width="200"/>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a>
+                                <span>{{ m.replies() | count }} / {{ m.views-1 }}</span>
                             </a>
                             <a class="topic_title" href="{{ url_for('topic.detail', id=m.id) }}">
                                 {{ m.title }}
                             </a>
-                            <span>{{ m.replies() | count }} / {{ m.views-1 }}</span>
 
                         </div>
                     </div>
@@ -57,31 +98,31 @@
     </div>
 </div>
 <!--<script>-->
-  <!--(function () {-->
-    <!--var editor = new Editor();-->
-    <!--editor.render($('.editor')[0]);-->
-  <!--})();-->
+<!--(function () {-->
+<!--var editor = new Editor();-->
+<!--editor.render($('.editor')[0]);-->
+<!--})();-->
 
 <!--</script>-->
 <!--<script type="text/javascript">-->
-    <!--$(".topic_title").on('click', doDelete);-->
+<!--$(".topic_title").on('click', doDelete);-->
 
-    <!--function doDelete(){-->
-        <!--var _id = $(this).attr('id');-->
-        <!--var _token = $(this).attr('token');-->
-    <!--$.ajax({-->
-        <!--url: "topic/delete",-->
-        <!--data: {'id':_id,'token':_token},-->
-        <!--dataType: 'json',-->
-        <!--success: function(json) {-->
-            <!--alert('删除成功');-->
-            <!--$("#topic.id").remove();-->
-        <!--},-->
-        <!--error:function(){-->
-            <!--alert('网络错误，删除失败')-->
-        <!--}-->
-    <!--});-->
-    <!--}-->
+<!--function doDelete(){-->
+<!--var _id = $(this).attr('id');-->
+<!--var _token = $(this).attr('token');-->
+<!--$.ajax({-->
+<!--url: "topic/delete",-->
+<!--data: {'id':_id,'token':_token},-->
+<!--dataType: 'json',-->
+<!--success: function(json) {-->
+<!--alert('删除成功');-->
+<!--$("#topic.id").remove();-->
+<!--},-->
+<!--error:function(){-->
+<!--alert('网络错误，删除失败')-->
+<!--}-->
+<!--});-->
+<!--}-->
 <!--</script>-->
 </body>
 </html>

@@ -15,6 +15,7 @@ csrf_tokens = set()
 
 @main.route("/")
 def index():
+    u = current_user()
     board_id = int(request.args.get("board_id", 0))
     if board_id == 0:
         ms = Topic.all()
@@ -23,7 +24,7 @@ def index():
         ms2 = Topic.find_all(board_id=board_id)
         ms = ms1 + ms2
     bs = Board.all()
-    return render_template("topic/index.html", ms=ms, bs=bs)
+    return render_template("topic/index.html", user=u, ms=ms, bs=bs)
 
 
 @main.route("/<int:id>")
@@ -43,7 +44,7 @@ def new():
 @main.route("/logout")
 def logout():
     session.pop('user_id')
-    return redirect(url_for('index.index'))
+    return redirect(url_for('.index'))
 
 
 @main.route("/add", methods=["POST"])
