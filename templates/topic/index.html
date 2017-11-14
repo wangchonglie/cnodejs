@@ -88,7 +88,6 @@
                             <a class="topic_title" href="{{ url_for('topic.detail', id=m.id) }}">
                                 {{ m.title }}
                             </a>
-
                         </div>
                     </div>
                     {% endfor %}
@@ -97,32 +96,15 @@
         </div>
     </div>
 </div>
-<!--<script>-->
-<!--(function () {-->
-<!--var editor = new Editor();-->
-<!--editor.render($('.editor')[0]);-->
-<!--})();-->
+<div class='pagination' current_page='1'>
+    <ul>
+        <li class='disabled'><a>«</a></li>
+        <li class='disabled'><a>1</a></li>
+        <li><a href='/?tab=all&amp;page=2'>2</a></li>
+        <li><a>...</a></li>
 
-<!--</script>-->
-<!--<script type="text/javascript">-->
-<!--$(".topic_title").on('click', doDelete);-->
-
-<!--function doDelete(){-->
-<!--var _id = $(this).attr('id');-->
-<!--var _token = $(this).attr('token');-->
-<!--$.ajax({-->
-<!--url: "topic/delete",-->
-<!--data: {'id':_id,'token':_token},-->
-<!--dataType: 'json',-->
-<!--success: function(json) {-->
-<!--alert('删除成功');-->
-<!--$("#topic.id").remove();-->
-<!--},-->
-<!--error:function(){-->
-<!--alert('网络错误，删除失败')-->
-<!--}-->
-<!--});-->
-<!--}-->
-<!--</script>-->
+        <li><a href='/?tab=all&amp;page=105'>»</a></li>
+    </ul>
+</div>
 </body>
 </html>

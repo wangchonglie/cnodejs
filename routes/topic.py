@@ -18,7 +18,7 @@ def index():
     u = current_user()
     board_id = int(request.args.get("board_id", 0))
     if board_id == 0:
-        ms = Topic.all()
+        ms = Topic.find_page()
     else:
         ms1 = Topic.find_all(board_id=0)
         ms2 = Topic.find_all(board_id=board_id)
