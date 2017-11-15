@@ -67,7 +67,7 @@
         <div class="panel">
             <div class="header">
                 {% for b in bs %}
-                <a href="/topic?board_id={{ b.id }}" class="topic-tab current-tab">
+                <a href="/topic?tab={{ b.tab }}" class="topic-tab current-tab">
                     {{ b.board_name }}
                 </a>
                 {% endfor %}
@@ -96,14 +96,14 @@
         </div>
     </div>
 </div>
-<div class='pagination' current_page='1'>
+<div class='pagination'>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <ul>
-        <li class='disabled'><a>«</a></li>
-        <li class='disabled'><a>1</a></li>
-        <li><a href='/?tab=all&amp;page=2'>2</a></li>
-        <li><a>...</a></li>
-
-        <li><a href='/?tab=all&amp;page=105'>»</a></li>
+        {% for i in range(pages) %}
+        <li><a visited="red" href="{{ url_for('.index', tab=tab, pages=i+1) }}"><font color="black">{{ i+1 }}</font></a></li>
+        {% endfor %}
     </ul>
 </div>
 </body>

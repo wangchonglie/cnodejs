@@ -36,3 +36,6 @@ def admin_permission(f):
             log('非管理员')
             abort(403)
     return decorator
+
+
+

@@ -1,13 +1,12 @@
 from flask import render_template, request, redirect, url_for, Blueprint, abort
 from routes import *
 from utils import log
-
+from pymongo import MongoClient
 from models.topic import Topic
 from models.reply import Reply
 from models.board import Board
 
 main = Blueprint('topic', __name__)
-
 
 import uuid
 csrf_tokens = set()
@@ -16,15 +15,31 @@ csrf_tokens = set()
 @main.route("/")
 def index():
     u = current_user()
-    board_id = int(request.args.get("board_id", 0))
-    if board_id == 0:
-        ms = Topic.find_page()
+    tab = request.args.get('tab', 'all')
+    page_no = int(request.args.get('pages', 1))
+    if tab == "all":
+        log('debug')
+        ms = Topic.find_page(page_no=page_no)
+        # 每页15条数据，需要多少页
+        pages = len(Topic.all()) / 15
+        if isinstance(pages, float):
+            pages += 1
+        pages = int(pages)
+        log('pages:', pages)
     else:
-        ms1 = Topic.find_all(board_id=0)
-        ms2 = Topic.find_all(board_id=board_id)
-        ms = ms1 + ms2
+        board = Board.find_by(tab=tab)
+        log('board', board)
+        xianzhi = {
+            'board_id': board.id,
+        }
+        ms = Topic.find_page(query_filter=xianzhi, page_no=page_no)
+        # 每页15条数据，需要多少页
+        pages = len(Topic.find_all(board_id=board.id)) / 15
+        if isinstance(pages, float):
+            pages += 1
+        pages = int(pages)
     bs = Board.all()
-    return render_template("topic/index.html", user=u, ms=ms, bs=bs)
+    return render_template("topic/index.html", pages=pages, user=u, ms=ms, bs=bs, tab=tab)
 
 
 @main.route("/<int:id>")

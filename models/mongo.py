@@ -193,6 +193,17 @@ class Mongo(object):
             return None
 
     @classmethod
+    def find_except(cls, **kwargs):
+        # TODO 过滤掉被删除的元素
+        kwargs['deleted'] = False
+        l = cls._find(**kwargs)
+        # print('find one debug', kwargs, l)
+        if len(l) > 0:
+            return l
+        else:
+            return None
+
+    @classmethod
     def upsert(cls, query_form, update_form, hard=False):
         ms = cls.find_one(**query_form)
         if ms is None:
