@@ -1,11 +1,11 @@
 from flask import render_template, request, redirect, url_for, Blueprint, abort
 from routes import *
 from utils import log
-from pymongo import MongoClient
 from models.topic import Topic
 from models.reply import Reply
 from models.board import Board
-
+from datetime import datetime
+import time
 main = Blueprint('topic', __name__)
 
 import uuid
@@ -47,13 +47,16 @@ def detail(id):
     token = str(uuid.uuid4())
     csrf_tokens.add(token)
     m = Topic.get(id)
-    return render_template("topic/detail.html", topic=m, token=token)
+    c_time = float(m.created_time)
+    print('111', c_time)
+    return render_template("topic/detail.html", topic=m, token=token, time=c_time)
 
 
 @main.route("/new")
 def new():
+    form = request.form
     bs = Board.all()
-    return render_template("topic/new.html", bs=bs)
+    return render_template("topic/test.html", bs=bs, form=form)
 
 
 @main.route("/logout")

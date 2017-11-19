@@ -263,3 +263,9 @@ class Mongo(object):
         }
         count = Charley.db[name]._find(query).count()
         return count
+
+    def ct(self):
+        format = '%Y-%m-%d %H:%M:%S'
+        value = time.localtime(self.created_time)
+        dt = time.strftime(format, value)
+        return dt

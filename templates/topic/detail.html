@@ -14,6 +14,8 @@
     <script src="/static/lib/editor/ext.js"></script>
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css" rel="stylesheet">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://cdn.bootcss.com/moment.js/2.19.2/locale/af.js"></script>
+    {{ ckeditor.load() }}
 </head>
 <body>
 <div id="main">
@@ -25,7 +27,7 @@
             	</span>
                 <div class="changes">
                     <span>
-                        发布于 2 天前
+                        发布于1天前
                     </span>
                     <span>
                         作者
@@ -78,7 +80,7 @@
                         </div>
                         <div class='reply_content from-Jianzs'>
                             <div class="markdown-text">
-                                {{ r.content }}
+                                {{ r.content | safe }}
                             </div>
                         </div>
                     </div>
@@ -86,7 +88,7 @@
                     <div>
                         <form action="{{ url_for('reply.add') }}" method="post">
                             <input type="hidden" name="topic_id" value="{{ topic.id }}">
-                            <textarea name="content"></textarea>
+                            <textarea name="content" id="editor1" class="ckeditor"></textarea>
                             <button>添加回复</button>
                         </form>
                     </div>

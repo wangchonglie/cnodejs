@@ -108,4 +108,3 @@ venv.bak/
 # End of https://www.gitignore.io/api/python
 .idea/learning-flask-web.iml
 log.txt
-config.py

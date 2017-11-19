@@ -1,8 +1,13 @@
 import config
 from flask import Flask
+from flask_ckeditor import CKEditor, CKEditorField
+from flask_moment import Moment
 
 
 app = Flask(__name__)
+ckeditor = CKEditor(app)
+moment = Moment(app)
+
 
 app.secret_key = config.secret_key
 
