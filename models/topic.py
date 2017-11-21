@@ -1,7 +1,8 @@
-import time
 from pymongo import MongoClient
 from .mongo import Mongo
-from utils import log
+from .user import User
+from .reply import Reply
+from .board import Board
 
 
 class Topic(Mongo):
@@ -21,25 +22,24 @@ class Topic(Mongo):
         return m
 
     def replies(self):
-        from .reply import Reply
         ms = Reply.find_all(topic_id=self.id)
         return ms
 
     def board_name(self):
-        from .board import Board
         m = Board.find(self.board_id)
-        # log('board', m)
         return m.board_name
 
     def user_name(self):
-        from .user import User
         m = User.find(self.user_id)
         return m.username
 
     def user(self):
-        from models.user import User
         m = User.find_by(id=self.user_id)
         return m
+
+    def board_name(self):
+        board = Board.find(self.board_id)
+        return board.board_name
 
     @classmethod
     def find_page(cls, query_filter=None, page_size=15, page_no=1, **kwargs):

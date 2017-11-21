@@ -58,6 +58,10 @@
                 </a>
                 <br>
                 {% endif %}
+            </div>
+        </div>
+        <div class="panel">
+            <div class='inner'>
                 <a href="/topic/new" class="create_topic_btn">
                     <span class="span-success">发布话题</span>
                 </a>
@@ -79,15 +83,25 @@
                     <div class="cell">
                         <div class="topic_title_wrapper">
                             <a class="user_avatar pull-left">
-                                <img src="{{'/uploads/' + m.user().user_image + '?v=1&amp;s=30'}}" height="200"
-                                     width="200"/>
+                                <img src="{{'/uploads/' + m.user().user_image + '?v=1&amp;s=30'}}" height="200" width="200"/>
                             </a>
-                            &nbsp;&nbsp;
+                            <span class="reply_count pull-left">
+                                <span class="count_of_replies" title="回复数">
+                                    {{ m.replies() | count()}}
+                                </span>
+                                    <span class="count_seperator">/</span>
+                                <span class="count_of_visits" title='点击数'>
+                                    {{ m.views-1 }}
+                                </span>
+                            </span>
                             <a>
-                                <span>{{ m.replies() | count }} / {{ m.views-1 }}</span>
+                                <span class="topiclist-tab">{{ m.board_name() }}</span>
                             </a>
                             <a class="topic_title" href="{{ url_for('topic.detail', id=m.id) }}">
-                                {{ m.title }}
+                                <span>{{ m.title }}</span>
+                            </a>
+                            <a class='last_time pull-right'>
+                                <span class="last_active_time">{{ m.new_time(m.created_time) }}前</span>
                             </a>
                         </div>
                     </div>
@@ -103,7 +117,8 @@
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <ul>
         {% for i in range(pages) %}
-        <li><a visited="red" href="{{ url_for('.index', tab=tab, pages=i+1) }}"><font color="black">{{ i+1 }}</font></a></li>
+        <li><a visited="red" href="{{ url_for('.index', tab=tab, pages=i+1) }}"><font color="black">{{ i+1 }}</font></a>
+        </li>
         {% endfor %}
     </ul>
 </div>
