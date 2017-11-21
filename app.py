@@ -13,6 +13,11 @@ def page_not_found(e):
     return render_template('403.html'), 403
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
 app.secret_key = config.secret_key
 #注册蓝图
 from routes.index import main as index_routes
