@@ -1,18 +1,19 @@
 import config
 from flask import Flask
 from flask_ckeditor import CKEditor, CKEditorField
-from flask_moment import Moment
-from flask_bootstrap import Bootstrap
+from flask import render_template
 
 
 app = Flask(__name__)
 ckeditor = CKEditor(app)
-moment = Moment(app)
-bootstrap = Bootstrap(app)
+
+
+@app.errorhandler(403)
+def page_not_found(e):
+    return render_template('403.html'), 403
 
 
 app.secret_key = config.secret_key
-
 #注册蓝图
 from routes.index import main as index_routes
 from routes.topic import main as topic_routes

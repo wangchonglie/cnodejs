@@ -1,4 +1,3 @@
-import time
 from flask import render_template, request, redirect, url_for, Blueprint, abort
 from routes import *
 from utils import log
