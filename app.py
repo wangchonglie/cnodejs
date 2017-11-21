@@ -2,11 +2,13 @@ import config
 from flask import Flask
 from flask_ckeditor import CKEditor, CKEditorField
 from flask_moment import Moment
+from flask_bootstrap import Bootstrap
 
 
 app = Flask(__name__)
 ckeditor = CKEditor(app)
 moment = Moment(app)
+bootstrap = Bootstrap(app)
 
 
 app.secret_key = config.secret_key

@@ -20,8 +20,8 @@ application = app.app
 """
 ➜  ~ cat /etc/supervisor/conf.d/xx.conf
 
-[program:todo]
-command=/usr/local/bin/gunicorn wsgi --bind 0.0.0.0:2000 --pid /tmp/todo.pid
-directory=/root/web13
+[program:bbs]
+command=/usr/local/bin/gunicorn wsgi --bind 0.0.0.0:5000 --pid /tmp/bbs.pid
+directory=/root/cnodejs
 autostart=true
 """

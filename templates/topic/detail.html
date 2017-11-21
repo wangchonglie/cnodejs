@@ -27,7 +27,7 @@
             	</span>
                 <div class="changes">
                     <span>
-                        发布于1天前
+                        发布于{{ timestamp }}前
                     </span>
                     <span>
                         作者
@@ -59,14 +59,13 @@
                     <div class='cell reply_area reply_item'>
                         <div class='author_content'>
                             <a href="/user/Jianzs" class="user_avatar">
-                                <img src="https://avatars0.githubusercontent.com/u/20160766?v=4&amp;s=120"
-                                     title="{{ r.user().username }}"/></a>
+                                <img src="{{'/uploads/' + r.user().user_image + '?v=1&amp;s=30'}}" height="50" width="30" title="{{ r.user().username }}"/></a>
                             <div class='user_info'>
                                 <a class='dark reply_author'>
                                     {{ r.user().username }}
                                 </a>
                                 <a class="reply_time">
-                                    {{ loop.index }}楼•4 小时前
+                                    {{ loop.index }}楼•{{ r.new_time(r.created_time) }}前
                                 </a>
                                 <span class="reply_by_author">作者</span>
                             </div>

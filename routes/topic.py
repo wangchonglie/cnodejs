@@ -1,11 +1,11 @@
+import time
 from flask import render_template, request, redirect, url_for, Blueprint, abort
 from routes import *
 from utils import log
 from models.topic import Topic
 from models.reply import Reply
 from models.board import Board
-from datetime import datetime
-import time
+
 main = Blueprint('topic', __name__)
 
 import uuid
@@ -47,9 +47,8 @@ def detail(id):
     token = str(uuid.uuid4())
     csrf_tokens.add(token)
     m = Topic.get(id)
-    c_time = float(m.created_time)
-    print('111', c_time)
-    return render_template("topic/detail.html", topic=m, token=token, time=c_time)
+    publish_time = Topic.new_time(m.created_time)
+    return render_template("topic/detail.html", topic=m, token=token, timestamp=publish_time)
 
 
 @main.route("/new")

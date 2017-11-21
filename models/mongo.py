@@ -30,6 +30,7 @@ def next_id(name):
     new_id = doc.find_and_modify(**kwargs).get('seq')
     return new_id
 
+
 class Mongo(object):
     __fields__ = [
         '_id',
@@ -264,8 +265,22 @@ class Mongo(object):
         count = Charley.db[name]._find(query).count()
         return count
 
-    def ct(self):
-        format = '%Y-%m-%d %H:%M:%S'
-        value = time.localtime(self.created_time)
-        dt = time.strftime(format, value)
-        return dt
+    # 查看发布时间
+    @classmethod
+    def new_time(cls, ct):
+        time_now = int(time.time())
+        distance_time = time_now - ct
+        h = distance_time / 3600
+        log(h)
+        if h < 1:
+            minutes = int(distance_time / 60)
+            log('minutes', minutes)
+            return str(minutes) + '分钟'
+        elif h < 24:
+            hours = int(h)
+            log('hour', hours)
+            return str(hours) + '小时'
+        else:
+            days = int(h / 24)
+            log('days', days)
+            return str(days) + '天'
