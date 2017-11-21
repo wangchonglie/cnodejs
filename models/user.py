@@ -8,6 +8,7 @@ class User(Mongo):
         ('password', str, ''),
         ('role', int, 11),
         ('user_image', str, 'default.png'),
+        ('signature', str, '这家伙很懒，什么个性签名都没有留下。'),
     ]
 
     def salted_password(self, password, salt='gsjkkfwk@!#'):
