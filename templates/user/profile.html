@@ -11,8 +11,6 @@
     <img src="{{'/uploads/' + user.user_image + '?v=1&amp;s=30'}}" height="200" width="200"/>
 </a>
 <br>
-<span>ID是：{{ user.id }}</span>
-<br>
 <span>昵称是：{{ user.username }}</span>
 <br>
 <span>角色是：
@@ -21,7 +19,9 @@
     {% else %}
         普通用户
     {% endif %}
-    </span>
+</span>
+<br>
+<span>个性签名：{{ user.signature }}</span>
 {% if user.id == current_user.id %}
     <h1>上传新的照片</h1>
     <form method="post" action={{ url_for(

@@ -14,6 +14,10 @@
     <title>CNode</title>
     <style type="text/css">
         a{text-decoration:none;}
+
+
+
+
     </style>
     {{ ckeditor.load() }}
 </head>
@@ -46,6 +50,28 @@
     </div>
 </div>
 <div id="main">
+    <div id='sidebar'>
+        <div class='panel'>
+            <div class='header'>
+                <span class='col_fade'>作者</span>
+            </div>
+            <div class='inner'>
+                <div class='user_card'>
+                    <div>
+                        <a class='user_avatar' href="{{ url_for('index.profile', profile_id=topic.user().id) }}">
+                            <img src="{{'/uploads/' + user.user_image + '?v=1&amp;s=30'}}"/>
+                        </a>
+                        <span class='user_name'><a class='dark'
+                                                   href="{{ url_for('index.profile', profile_id=topic.user().id) }}">{{ topic.user_name() }}</a></span>
+                        <div class="space clearfix"></div>
+                        <span class="signature">
+                            {{ topic.user().signature }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="content">
         <div class='panel'>
             <div class='header topic_header'>
@@ -66,10 +92,12 @@
                     <span>
                         来自 {{ topic.board_name() }}
                     </span>
-                    {% if user.role != 0 %}
-                        <a class="topic_title" href="{{ url_for('topic.delete', id=topic.id, token=token) }}">
-                            删除
-                        </a>
+                    {% if user.role == 0 or user.id == topic.user_id %}
+                    <span>
+                            <a class="topic_title" href="{{ url_for('topic.delete', id=topic.id, token=token) }}">
+                                删除
+                            </a>
+                    </span>
                     {% endif %}
                 </div>
             </div>
@@ -133,6 +161,10 @@
 
   ga('create', 'UA-41753901-5', 'auto');
   ga('send', 'pageview');
+
+
+
+
 
 </script>
 </body>

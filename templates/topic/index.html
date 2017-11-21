@@ -1,6 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>CNode</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/lib/editor/editor.css">
@@ -10,10 +11,7 @@
     <script src="/static/lib/webuploader/webuploader.withoutimage.js"></script>
     <script src="/static/lib/editor/editor.js"></script>
     <script src="/static/lib/editor/ext.js"></script>
-    <title>CNode</title>
-    <style type="text/css">
-        a{text-decoration:none;}
-    </style>
+    <style>a{text-decoration:none}</style>
 </head>
 <body>
 <div class='navbar'>
@@ -32,11 +30,11 @@
                 </li>
                 {% if user %}
                 <li>
-                    <a href="/topic/logout">退出</a>
+                    <a href="/topic/logout" data-method="post" rel="nofollow">退出</a>
                 </li>
                 {% else %}
                 <li>
-                    <a href="/login">登录</a>
+                    <a href="/login" data-method="post" rel="nofollow">登录</a>
                 </li>
                 {% endif %}
             </ul>
@@ -53,6 +51,10 @@
                 </a>
                 <a>
                     <span>{{ user.username }}</span>
+                    <div class="space clearfix"></div>
+                    <span class="signature">
+                        {{ user.signature }}
+                    </span>
                 </a>
                 {% else %}
                 <a>
@@ -84,7 +86,8 @@
                     <div class="cell">
                         <div class="topic_title_wrapper">
                             <a class="user_avatar pull-left">
-                                <img src="{{'/uploads/' + m.user().user_image + '?v=1&amp;s=30'}}" height="200" width="200"/>
+                                <img src="{{'/uploads/' + m.user().user_image + '?v=1&amp;s=30'}}" height="200"
+                                     width="200"/>
                             </a>
                             <span class="reply_count pull-left">
                                 <span class="count_of_replies" title="回复数">
