@@ -45,14 +45,8 @@ class Topic(Mongo):
     def find_page(cls, query_filter=None, page_size=15, page_no=1, **kwargs):
         client = MongoClient("localhost", 27017)
         collection = client.db['Topic']
-        kwargs['deleted'] = False
-        flag_sort = '__sort'
         skip = page_size * (page_no - 1)
-        sort = kwargs.pop(flag_sort, None)
         ds = collection.find(query_filter).limit(page_size).skip(skip)
-        if sort is not None:
-            ds = ds.sort(sort)
         l = [cls._new_with_bson(d) for d in ds][::-1]
         return l
-
 
