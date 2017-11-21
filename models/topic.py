@@ -52,7 +52,7 @@ class Topic(Mongo):
         ds = collection.find(query_filter).limit(page_size).skip(skip)
         if sort is not None:
             ds = ds.sort(sort)
-        l = [cls._new_with_bson(d) for d in ds]
+        l = [cls._new_with_bson(d) for d in ds][::-1]
         return l
 
 

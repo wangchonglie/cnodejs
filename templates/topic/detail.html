@@ -2,22 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>bbs club</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/lib/editor/editor.css">
     <link rel="stylesheet" href="/static/lib/webuploader/webuploader.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <script src="/static/lib/jquery-3.0.0.min.js"></script>
-    <script src="/static/lib/markdownit.js"></script>
     <script src="/static/lib/webuploader/webuploader.withoutimage.js"></script>
     <script src="/static/lib/editor/editor.js"></script>
     <script src="/static/lib/editor/ext.js"></script>
-    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css" rel="stylesheet">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <script src="https://cdn.bootcss.com/moment.js/2.19.2/locale/af.js"></script>
+    <title>CNode</title>
+    <style type="text/css">
+        a{text-decoration:none;}
+    </style>
     {{ ckeditor.load() }}
 </head>
 <body>
+<div class='navbar'>
+    <div class='navbar-inner'>
+        <div class='container'>
+            <a class='brand' href=''>
+                <img src="//o4j806krb.qnssl.com/public/images/cnodejs_light.svg"/>
+            </a>
+            <ul class='nav pull-right'>
+                <li><a href='/topic'>首页</a></li>
+                <li>
+                    <a href="/topic/about">项目说明</a>
+                </li>
+                <li>
+                    <a href="/register">注册</a>
+                </li>
+                {% if user %}
+                <li>
+                    <a href="/topic/logout">退出</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/login">登录</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
 <div id="main">
     <div id="content">
         <div class='panel'>
@@ -48,7 +75,7 @@
             <div class='inner topic'>
                 <div class='topic_content'>
                     <div class="markdown-text">
-                        {{ topic.content }}
+                        {{ topic.content | safe }}
                     </div>
                 </div>
                 <div class='panel'>
@@ -59,7 +86,8 @@
                     <div class='cell reply_area reply_item'>
                         <div class='author_content'>
                             <a href="/user/Jianzs" class="user_avatar">
-                                <img src="{{'/uploads/' + r.user().user_image + '?v=1&amp;s=30'}}" height="50" width="30" title="{{ r.user().username }}"/></a>
+                                <img src="{{'/uploads/' + r.user().user_image + '?v=1&amp;s=30'}}" height="50"
+                                     width="30" title="{{ r.user().username }}"/></a>
                             <div class='user_info'>
                                 <a class='dark reply_author'>
                                     {{ r.user().username }}
@@ -71,9 +99,7 @@
                             </div>
                             <div class='user_action'>
                              <span>
-                             <i class="fa up_btnfa-thumbs-o-upinvisible" title="喜欢"></i>
-                             <span class="up-count">
-                             </span>
+                                 <i class="fa up_btnfa-thumbs-o-upinvisible" title="喜欢"></i>
                              </span>
                             </div>
                         </div>
@@ -105,6 +131,7 @@
 
   ga('create', 'UA-41753901-5', 'auto');
   ga('send', 'pageview');
+
 </script>
 </body>
 </html>

@@ -274,13 +274,10 @@ class Mongo(object):
         log(h)
         if h < 1:
             minutes = int(distance_time / 60)
-            log('minutes', minutes)
             return str(minutes) + '分钟'
         elif h < 24:
             hours = int(h)
-            log('hour', hours)
             return str(hours) + '小时'
         else:
             days = int(h / 24)
-            log('days', days)
             return str(days) + '天'

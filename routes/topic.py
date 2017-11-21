@@ -44,11 +44,12 @@ def index():
 
 @main.route("/<int:id>")
 def detail(id):
+    u = current_user()
     token = str(uuid.uuid4())
     csrf_tokens.add(token)
     m = Topic.get(id)
     publish_time = Topic.new_time(m.created_time)
-    return render_template("topic/detail.html", topic=m, token=token, timestamp=publish_time)
+    return render_template("topic/detail.html", topic=m, token=token, timestamp=publish_time, user=u)
 
 
 @main.route("/new")
@@ -67,12 +68,14 @@ def logout():
 @main.route("/add", methods=["POST"])
 def add():
     form = request.form
+    log('form', form)
     u = current_user()
     m = Topic.new(form, user_id=u.id)
     return redirect(url_for('.detail', id=m.id))
 
 
 @main.route("/delete")
+@admin_permission
 def delete():
     delete_id = int(request.args.get('id'))
     delete_name = Topic.find(delete_id)
