@@ -26,6 +26,9 @@
                     <a href="/topic/about">项目说明</a>
                 </li>
                 <li>
+                    <a href="{{ url_for('index.profile', profile_id=user.id) }}">个人资料</a>
+                </li>
+                <li>
                     <a href="/register">注册</a>
                 </li>
                 {% if user %}

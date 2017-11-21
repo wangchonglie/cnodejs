@@ -46,7 +46,6 @@ def to_register():
 @main.route("/profile")
 def profile():
     profile_id = int(request.args.get('profile_id', -1))
-    log(profile_id)
     u = User.find_by(id=profile_id)
     now_user = current_user()
     return render_template("user/profile.html", user=u, current_user=now_user)
