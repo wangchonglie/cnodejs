@@ -36,7 +36,7 @@ def login():
     return render_template("user/login.html")
 
 
-@main.route("/to_register", methods=["POST"])
+@main.route("/to_register", methods=["GET","POST"])
 def to_register():
     form = request.form
     u = User.register(form)

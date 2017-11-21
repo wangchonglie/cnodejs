@@ -1,18 +1,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CNode</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/lib/editor/editor.css">
     <link rel="stylesheet" href="/static/lib/webuploader/webuploader.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <script src="/static/lib/jquery-3.0.0.min.js"></script>
-    <script src="/static/lib/markdownit.js"></script>
     <script src="/static/lib/webuploader/webuploader.withoutimage.js"></script>
     <script src="/static/lib/editor/editor.js"></script>
     <script src="/static/lib/editor/ext.js"></script>
-    {{ moment.include_moment() }}
+    <title>CNode</title>
+    <style type="text/css">
+        a{text-decoration:none;}
+    </style>
 </head>
 <body>
 <div class='navbar'>
@@ -24,14 +25,11 @@
             <ul class='nav pull-right'>
                 <li><a href=''>首页</a></li>
                 <li>
-                    <a href='/my/messages'>
-                        未读消息
-                    </a>
+                    <a href="/topic/about">项目说明</a>
                 </li>
-                <li><a href='/getstart'>新手入门</a></li>
-                <li><a href='/api'>API</a></li>
-                <li><a href="/about" target="">关于</a></li>
-                <li><a href='/setting'>设置</a></li>
+                <li>
+                    <a href="/register">注册</a>
+                </li>
                 {% if user %}
                 <li>
                     <a href="/topic/logout" data-method="post" rel="nofollow">退出</a>
@@ -56,7 +54,10 @@
                 <a>
                     <span>{{ user.username }}</span>
                 </a>
-                <br>
+                {% else %}
+                <a>
+                    <span>您尚未登录</span>
+                </a>
                 {% endif %}
             </div>
         </div>

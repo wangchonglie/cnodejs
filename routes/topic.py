@@ -96,3 +96,10 @@ def delete():
     else:
         log('没有删除权限')
         abort(403)
+
+
+@main.route("/about")
+def about():
+    u = current_user()
+    return render_template("topic/about.html", user=u)
+

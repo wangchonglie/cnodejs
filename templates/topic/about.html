@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name='description' content='CNode：Node.js专业中文社区'>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="keywords" content="nodejs, node, express, connect, socket.io"/>
+    <meta name="referrer" content="always">
+    <meta name="author" content="EDP@TaoBao"/>
+    <meta property="wb:webmaster" content="617be6bd946c6b96"/>
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="/rss"/>
+    <link rel="icon" href="//o4j806krb.qnssl.com/public/images/cnode_icon_32.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="//o4j806krb.qnssl.com/public/stylesheets/index.min.9d1ebdbb.min.css" media="all"/>
+    <script src="//o4j806krb.qnssl.com/public/index.min.aeb155e1.min.js"></script>
+    <meta content="qgCcs8s6-QwIR9-t0aoQ-S7H7VZOf4902ct4" name="csrf-token">
+    <meta content="_csrf" name="csrf-param">
+    <title>项目说明</title>
+    <style type="text/css">
+        a{text-decoration:none;}
+    </style>
+</head>
+<body>
+<div class='navbar'>
+    <div class='navbar-inner'>
+        <div class='container'>
+            <a class='brand' href='/topic'>
+                <img src="//o4j806krb.qnssl.com/public/images/cnodejs_light.svg"/>
+            </a>
+            <ul class='nav pull-right'>
+                <li><a href='/topic'>首页</a></li>
+                <li>
+                    <a href="/topic/about">项目说明</a>
+                </li>
+                <li>
+                    <a href="/register">注册</a>
+                </li>
+                {% if user %}
+                <li>
+                    <a href="/topic/logout">退出</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/login">登录</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div id='main'>
+    <div id='sidebar'>
+
+        <div class='panel'>
+
+            <div class='header'>
+                <span class='col_fade'>个人信息</span>
+            </div>
+            <div class='inner'>
+                <div class='user_card'>
+                    <a class='user_avatar'>
+                        <img src="https://avatars0.githubusercontent.com/u/26594947?v=4&amp;s=120"
+                             title="wangchonglie"/>
+                    </a>
+                    <span class='user_name'><a class='dark'>王崇烈</a></span>
+                    <div class="space clearfix"></div>
+                    <span class="signature">
+                            “一个Web开发学徒”
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class='inner'>
+                <a href="/topic/new" class="create_topic_btn">
+                    <span class="span-success">发布话题</span>
+                </a>
+            </div>
+        </div>
+        <div class='panel'>
+            <div class='header'>
+                <span class='col_fade'>微信二维码</span>
+            </div>
+            <div class='inner cnode-app-download'>
+                <img src="{{'/uploads/' + 'wechat.jpg'}}"/>
+                <br/>
+                <a href="https://github.com/wangchonglie/cnodejs" target="_blank">GitHub地址</a>
+                <br/>
+                <a>18665141213</a>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id='content'>
+        <div class='panel'>
+            <div class='header'>
+                <ul class='breadcrumb'>
+                    <h3>项目说明</h3>
+                </ul>
+            </div>
+            <div class='inner topic'>
+                <div class="topic_content">
+                    <div class="markdown-text">
+                        <p>这个项目是仿照网站<a href="https://cnodejs.org/">Cnode社区</a>编写的。</p>
+                        <p>CNode 社区由一批热爱 Node.js 技术的工程师发起，目前已经吸引了互联网各个公司的专业技术人员加入，我们非常欢迎更多对 Node.js 感兴趣的朋友。</p>
+                        <p>CNode 的 SLA 保证是，一个9，即 90.000000%。</p>
+                        <p>社区目前由 <a href="http://cnodejs.org/user/alsotang">@alsotang</a> 在维护，有问题请联系：<a
+                                href="https://github.com/alsotang">https://github.com/alsotang</a></p>
+                        <p>请关注我们的官方微博：<a href="http://weibo.com/cnodejs">http://weibo.com/cnodejs</a></p>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id='backtotop'>回到顶部</div>
+    <div style="display:none;">
+        <script src="//s95.cnzz.com/z_stat.php?id=1254020586&web_id=1254020586" language="JavaScript"></script>
+    </div>
+
+
+</body>
+</html>
