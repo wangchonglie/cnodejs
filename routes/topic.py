@@ -17,7 +17,10 @@ def index():
     page_no = int(request.args.get('pages', 1))
     if tab == "all":
         xianzhi = {
-            'deleted': False
+            'deleted': False,
+            'board_id': {
+                    '$ne': 6
+            }
         }
         ms = Topic.find_page(query_filter=xianzhi, page_no=page_no)
         # 每页15条数据，需要多少页
