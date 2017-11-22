@@ -46,6 +46,7 @@ def to_register():
 @main.route("/profile")
 def profile():
     profile_id = int(request.args.get('profile_id', -1))
+    print('profile_id', profile_id)
     u = User.find_by(id=profile_id)
     now_user = current_user()
     return render_template("user/profile.html", user=u, current_user=now_user)
@@ -57,10 +58,8 @@ def to_login():
     # log("登录里面的form有什么：", form)
     u = User.validate_login(form)
     if u is None:
-        log('登录失败')
         return redirect(url_for('.register'))
     else:
-        log('登录成功')
         session['user_id'] = u.id
         session.permanent = True
         return redirect(url_for('topic.index'))

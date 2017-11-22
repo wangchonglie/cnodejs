@@ -62,7 +62,7 @@
                 <div class='user_card'>
                     <div>
                         <a class='user_avatar' href="{{ url_for('index.profile', profile_id=topic.user().id) }}">
-                            <img src="{{'/uploads/' + user.user_image + '?v=1&amp;s=30'}}"/>
+                            <img src="{{'/uploads/' + topic.user().user_image + '?v=1&amp;s=30'}}"/>
                         </a>
                         <span class='user_name'><a class='dark'
                                                    href="{{ url_for('index.profile', profile_id=topic.user().id) }}">{{ topic.user_name() }}</a></span>
@@ -128,7 +128,9 @@
                                 <a class="reply_time">
                                     {{ loop.index }}楼•{{ r.new_time(r.created_time) }}前
                                 </a>
+                                {% if topic.user_id == r.user_id %}
                                 <span class="reply_by_author">作者</span>
+                                {% endif %}
                             </div>
                             <div class='user_action'>
                              <span>
@@ -143,6 +145,7 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {% if user %}
                     <div>
                         <form action="{{ url_for('reply.add') }}" method="post">
                             <input type="hidden" name="topic_id" value="{{ topic.id }}">
@@ -150,25 +153,16 @@
                             <button>添加回复</button>
                         </form>
                     </div>
+                    {% else %}
+                    <div>
+                        <h4>您尚未登录，请登录后再发表评论。</h4>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script>
-  // google analytics
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script', "https://www.google-analytics.com/analytics.js",'ga');
 
-  ga('create', 'UA-41753901-5', 'auto');
-  ga('send', 'pageview');
-
-
-
-
-
-</script>
 </body>
 </html>

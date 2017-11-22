@@ -2,10 +2,13 @@ import config
 from flask import Flask
 from flask_ckeditor import CKEditor, CKEditorField
 from flask import render_template
+from datetime import timedelta
 
 
 app = Flask(__name__)
 ckeditor = CKEditor(app)
+# 设置session过期时间
+# app.permanent_session_lifetime = timedelta(minutes=10)
 
 
 @app.errorhandler(403)

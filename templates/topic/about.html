@@ -31,9 +31,11 @@
                 <li>
                     <a href="/topic/about">项目说明</a>
                 </li>
+                {% if user %}
                 <li>
                     <a href="{{ url_for('index.profile', profile_id=user.id) }}">个人资料</a>
                 </li>
+                {% endif %}
                 <li>
                     <a href="/register">注册</a>
                 </li>
@@ -72,6 +74,7 @@
                 </div>
             </div>
         </div>
+        {% if user %}
         <div class="panel">
             <div class='inner'>
                 <a href="/topic/new" class="create_topic_btn">
@@ -79,6 +82,7 @@
                 </a>
             </div>
         </div>
+        {% endif %}
         <div class='panel'>
             <div class='header'>
                 <span class='col_fade'>微信二维码</span>
