@@ -27,11 +27,14 @@ def index():
         pages = int(pages)
     else:
         board = Board.find_by(tab=tab)
-        xianzhi = {
-            'board_id': board.id,
-            'deleted': False
-        }
-        ms = Topic.find_page(query_filter=xianzhi, page_no=page_no)
+        if board is not None:
+            xianzhi = {
+                'board_id': board.id,
+                'deleted': False
+            }
+            ms = Topic.find_page(query_filter=xianzhi, page_no=page_no)
+        else:
+            ms = Topic.find_page(query_filter=xianzhi, page_no=page_no)
         # 每页15条数据，需要多少页
         pages = len(Topic.find_all(board_id=board.id)) / 15
         if isinstance(pages, float):
