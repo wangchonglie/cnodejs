@@ -11,10 +11,16 @@
     <img src="{{'/uploads/' + user.user_image + '?v=1&amp;s=30'}}" height="200" width="200"/>
 </a>
 <br>
+{% if user.id == current_user.id %}
+    <a href="/profile_edit">
+        <span>修改个人资料</span>
+    </a>
+{% endif %}
+<br>
 <span>昵称是：{{ user.username }}</span>
 <br>
 <span>角色是：
-    {% if user.role == 11 %}
+    {% if user.role == 0 %}
         管理员
     {% else %}
         普通用户
@@ -23,12 +29,12 @@
 <br>
 <span>个性签名：{{ user.signature }}</span>
 {% if user.id == current_user.id %}
-    <h1>上传新的照片</h1>
-    <form method="post" action={{ url_for(
-    ".add_img") }} enctype=multipart/form-data>
-    <input type="file" name="file">
-    <input type="submit" value="确认上传 ">
-    </form>
+<h1>上传新的照片</h1>
+<form method="post" action={{ url_for(
+".add_img") }} enctype=multipart/form-data>
+<input type="file" name="file">
+<input type="submit" value="确认上传 ">
+</form>
 {% endif %}
 </body>
 </html>

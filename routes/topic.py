@@ -71,7 +71,7 @@ def detail(id):
 def new():
     form = request.form
     bs = Board.all()
-    return render_template("topic/test.html", bs=bs, form=form)
+    return render_template("topic/new.html", bs=bs, form=form)
 
 
 @main.route("/logout")
@@ -119,7 +119,6 @@ def about():
 def top():
     top_id = int(request.args.get('id'))
     topic = Topic.find(top_id)
-    u = current_user()
     topic.top = True
     topic.save()
     return redirect(url_for('.detail', id=top_id))
@@ -130,7 +129,6 @@ def top():
 def top_undo():
     top_id = int(request.args.get('id'))
     topic = Topic.find(top_id)
-    u = current_user()
     topic.top = False
     topic.save()
     return redirect(url_for('.detail', id=top_id))

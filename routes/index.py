@@ -46,7 +46,6 @@ def to_register():
 @main.route("/profile")
 def profile():
     profile_id = int(request.args.get('profile_id', -1))
-    print('profile_id', profile_id)
     u = User.find_by(id=profile_id)
     now_user = current_user()
     return render_template("user/profile.html", user=u, current_user=now_user)
@@ -86,9 +85,43 @@ def add_img():
         u.user_image = filename
         u.save()
 
-    return redirect(url_for(".profile", profile_id=u.id))
+    return redirect(url_for(".new_profile", profile_id=u.id))
 
 
 @main.route("/uploads/<filename>")
 def uploads(filename):
     return send_from_directory(user_file_director, filename)
+
+
+@main.route("/profile_edit", methods=["POST"])
+@login_permission
+def profile_edit():
+    u = current_user()
+    if request.form.get('username') != '':
+        u.username = request.form.get('username')
+    if request.form.get('signature') != '':
+        u.signature = request.form.get('signature')
+    u.save()
+    return redirect(url_for('.new_profile'))
+
+
+@main.route("/new_profile")
+def new_profile():
+    u = current_user()
+    return render_template("user/profile_edit.html", user=u)
+
+
+@main.route("/password_edit", methods=["POST"])
+@login_permission
+def password_edit():
+    u = current_user()
+    if request.form.get('password') != '':
+        password = request.form.get('password')
+        print(password)
+        if u.password == u.salted_password(password) and request.form.get('new_password') != '':
+            new_password = request.form.get('new_password')
+            print(new_password)
+            u.password = u.salted_password(new_password)
+    u.save()
+    return redirect(url_for('.new_profile'))
+
