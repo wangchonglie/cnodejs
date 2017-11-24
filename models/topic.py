@@ -12,6 +12,7 @@ class Topic(Mongo):
         ('content', str, ''),
         ('user_id', int, -1),
         ('board_id', int, -1),
+        ('top', bool, False),
     ]
 
     @classmethod

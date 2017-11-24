@@ -18,6 +18,7 @@
 
 
 
+
     </style>
     {{ ckeditor.load() }}
 </head>
@@ -95,12 +96,25 @@
                     <span>
                         来自 {{ topic.board_name() }}
                     </span>
+                    {% if user.role == 0 and topic.top == false%}
+                        <span>
+                                <a class="topic_title" href="{{ url_for('topic.top', id=topic.id) }}">
+                                    置顶
+                                </a>
+                        </span>
+                    {% elif user.role == 0 and topic.top == true%}
+                        <span>
+                                <a class="topic_title" href="{{ url_for('topic.top_undo', id=topic.id) }}">
+                                    取消置顶
+                                </a>
+                        </span>
+                    {% endif %}
                     {% if user.role == 0 or user.id == topic.user_id %}
                     <span>
-                            <a class="topic_title" href="{{ url_for('topic.delete', id=topic.id, token=token) }}">
-                                删除
-                            </a>
-                    </span>
+                                <a class="topic_title" href="{{ url_for('topic.delete', id=topic.id, token=token) }}">
+                                    删除
+                                </a>
+                        </span>
                     {% endif %}
                 </div>
             </div>

@@ -16,13 +16,23 @@ def index():
     tab = request.args.get('tab', 'all')
     page_no = int(request.args.get('pages', 1))
     if tab == "all":
-        xianzhi = {
+        xianzhi1 = {
             'deleted': False,
+            'top': True,
             'board_id': {
                     '$ne': 6
             }
         }
-        ms = Topic.find_page(query_filter=xianzhi, page_no=page_no)
+        ms1 = Topic.find_page(query_filter=xianzhi1, page_no=page_no)
+        xianzhi2 = {
+            'deleted': False,
+            'top': False,
+            'board_id': {
+                '$ne': 6
+            }
+        }
+        ms2 = Topic.find_page(query_filter=xianzhi2, page_no=page_no)
+        ms = ms1 + ms2
         # 每页15条数据，需要多少页
         pages = len(Topic.all()) / 15
         if isinstance(pages, float):
@@ -102,4 +112,27 @@ def delete():
 def about():
     u = current_user()
     return render_template("topic/about.html", user=u)
+
+
+@main.route("/top")
+@admin_permission
+def top():
+    top_id = int(request.args.get('id'))
+    topic = Topic.find(top_id)
+    u = current_user()
+    topic.top = True
+    topic.save()
+    return redirect(url_for('.detail', id=top_id))
+
+
+@main.route("/top_undo")
+@admin_permission
+def top_undo():
+    top_id = int(request.args.get('id'))
+    topic = Topic.find(top_id)
+    u = current_user()
+    topic.top = False
+    topic.save()
+    return redirect(url_for('.detail', id=top_id))
+
 

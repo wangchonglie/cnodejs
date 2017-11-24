@@ -71,21 +71,21 @@
             </div>
             {% else %}
             <div class="inner">
-                <span >您尚未登录，请<a href="/login">登录</a>后再发布话题。</span>
+                <span>您尚未登录，请<a href="/login">登录</a>后再发布话题。</span>
             </div>
             {% endif %}
             <div class='panel'>
-            <div class='header'>
-                <span class='col_fade'>微信二维码</span>
+                <div class='header'>
+                    <span class='col_fade'>微信二维码</span>
+                </div>
+                <div class='inner cnode-app-download'>
+                    <img src="{{'/uploads/' + 'wechat.jpg'}}"/>
+                    <br/>
+                    <a href="https://github.com/wangchonglie/cnodejs" target="_blank">GitHub地址</a>
+                    <br/>
+                    <a>18665141213</a>
+                </div>
             </div>
-            <div class='inner cnode-app-download'>
-                <img src="{{'/uploads/' + 'wechat.jpg'}}"/>
-                <br/>
-                <a href="https://github.com/wangchonglie/cnodejs" target="_blank">GitHub地址</a>
-                <br/>
-                <a>18665141213</a>
-            </div>
-        </div>
         </div>
 
     </div>
@@ -116,9 +116,15 @@
                                     {{ m.views-1 }}
                                 </span>
                             </span>
-                            <a>
-                                <span class="topiclist-tab">{{ m.board_name() }}</span>
-                            </a>
+                            {% if m.top %}
+                                <a>
+                                    <span class='put_top'>置顶</span>
+                                </a>
+                            {% else %}
+                                <a>
+                                    <span class="topiclist-tab">{{ m.board_name() }}</span>
+                                </a>
+                            {% endif %}
                             <a class="topic_title" href="{{ url_for('topic.detail', id=m.id) }}">
                                 <span>{{ m.title }}</span>
                             </a>
