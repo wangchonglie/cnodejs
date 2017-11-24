@@ -28,6 +28,8 @@ main = Blueprint('index', __name__)
 
 @main.route("/register")
 def register():
+    if current_user() is not None:
+        session.pop('user_id')
     return render_template("user/register.html")
 
 
