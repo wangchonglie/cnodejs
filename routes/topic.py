@@ -15,6 +15,13 @@ def index():
     u = current_user()
     tab = request.args.get('tab', 'all')
     page_no = int(request.args.get('pages', 1))
+    ts = Topic.all()
+    for t in ts:
+        print(t.top)
+        if t.top is False:
+            print("!!!!")
+            t.top = True
+            t.save()
     if tab == "all":
         xianzhi1 = {
             'deleted': False,
