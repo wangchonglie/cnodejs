@@ -8,7 +8,7 @@ from datetime import timedelta
 app = Flask(__name__)
 ckeditor = CKEditor(app)
 # 设置session过期时间
-# app.permanent_session_lifetime = timedelta(minutes=10)
+app.permanent_session_lifetime = timedelta(minutes=30)
 
 
 @app.errorhandler(403)

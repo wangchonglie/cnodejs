@@ -33,7 +33,6 @@ class User(Mongo):
         if len(name) > 2 and User.find_by(username=name) is None:
             u = User.new(form)
             u.password = u.salted_password(pwd)
-            u.save()
             return u
         else:
             return None
