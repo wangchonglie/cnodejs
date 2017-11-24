@@ -35,9 +35,4 @@ app.register_blueprint(board_routes, url_prefix='/board')
 app.register_blueprint(mail_routes, url_prefix='/mail')
 
 if __name__ == '__main__':
-    config = dict(
-        debug=True,
-        host='0.0.0.0',
-        port=5000,
-     )
-    app.run(**config)
+    app.run()
