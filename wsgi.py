@@ -21,7 +21,7 @@ application = app.app
 ➜  ~ cat /etc/supervisor/conf.d/xx.conf
 
 [program:bbs]
-command=/usr/local/bin/gunicorn wsgi --bind 0.0.0.0:5000 --pid /tmp/bbs.pid
+command=gunicorn wsgi --bind 0.0.0.0:5000 --pid /tmp/bbs.pid
 directory=/root/cnodejs
 autostart=true
 """
