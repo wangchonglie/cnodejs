@@ -3,6 +3,7 @@ from .mongo import Mongo
 from .user import User
 from .reply import Reply
 from .board import Board
+from utils import log
 
 
 class Topic(Mongo):
@@ -38,8 +39,8 @@ class Topic(Mongo):
         m = User.find_by(id=self.user_id)
         return m
 
-    def board_name(self):
-        board = Board.find(self.board_id)
+    def board_name(self, board_id=0):
+        board = Board.find(board_id)
         return board.board_name
 
     @classmethod
@@ -47,7 +48,7 @@ class Topic(Mongo):
         client = MongoClient("localhost", 27017)
         collection = client.db['Topic']
         skip = page_size * (page_no - 1)
-        ds = collection.find(query_filter).limit(page_size).skip(skip)
-        l = [cls._new_with_bson(d) for d in ds][::-1]
+        ds = collection.find(query_filter).sort([('created_time', -1)]).limit(page_size).skip(skip)
+        l = [cls._new_with_bson(d) for d in ds]
         return l
 

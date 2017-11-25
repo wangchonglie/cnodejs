@@ -16,7 +16,8 @@ def index():
     token = str(uuid.uuid4())
     csrf_tokens.add(token)
     bs = Board.all()
-    return render_template('board/admin_index.html', bs=bs, token=token)
+    u = current_user()
+    return render_template('board/admin_index.html', user=u, bs=bs, token=token)
 
 
 @main.route("/add", methods=["POST"])

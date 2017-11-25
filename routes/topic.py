@@ -16,22 +16,22 @@ def index():
     tab = request.args.get('tab', 'all')
     page_no = int(request.args.get('pages', 1))
     if tab == "all":
-        xianzhi1 = {
+        filter_1 = {
             'deleted': False,
             'top': True,
             'board_id': {
                     '$ne': 6
             }
         }
-        ms1 = Topic.find_page(query_filter=xianzhi1, page_no=page_no)
-        xianzhi2 = {
+        ms1 = Topic.find_page(query_filter=filter_1, page_no=page_no)
+        filter_2 = {
             'deleted': False,
             'top': False,
             'board_id': {
                 '$ne': 6
             }
         }
-        ms2 = Topic.find_page(query_filter=xianzhi2, page_no=page_no)
+        ms2 = Topic.find_page(query_filter=filter_2, page_no=page_no)
         ms = ms1 + ms2
         # 每页15条数据，需要多少页
         pages = len(Topic.all()) / 15
@@ -41,13 +41,11 @@ def index():
     else:
         board = Board.find_by(tab=tab)
         if board is not None:
-            xianzhi = {
+            filter_1 = {
                 'board_id': board.id,
                 'deleted': False
             }
-            ms = Topic.find_page(query_filter=xianzhi, page_no=page_no)
-        else:
-            ms = Topic.find_page(query_filter=xianzhi, page_no=page_no)
+            ms = Topic.find_page(query_filter=filter_1, page_no=page_no)
         # 每页15条数据，需要多少页
         pages = len(Topic.find_all(board_id=board.id)) / 15
         if isinstance(pages, float):

@@ -7,18 +7,153 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
-    <form action="/board/add" method="post">
-        <input name="board_name">
-        <br>
-        <button>添加</button>
-    </form>
-    <span>现有的版块</span>
-    {% for b in bs %}
-        {{ b.board_name }}
-    <!--<a href="/board?delete={{ b.id }}">删除</a>-->
-    <a  href="{{ url_for('board.delete', id=b.id, token=token) }}">
-                              <button>删除</button>
-    </a>
-    {% endfor %}
+<div class='navbar'>
+    <div class='navbar-inner'>
+        <div class='container'>
+            <a class='brand' href='/topic'>
+                <img src="//o4j806krb.qnssl.com/public/images/cnodejs_light.svg"/>
+            </a>
+            <ul class='nav pull-right'>
+                <li><a href='/topic'>首页</a></li>
+                <li>
+                    <a href="/topic/about">项目说明</a>
+                </li>
+                {% if user %}
+                <li>
+                    <a href="{{ url_for('index.new_profile', profile_id=user.id) }}">个人资料</a>
+                </li>
+                {% endif %}
+                {% if user.role ==0 %}
+                <li>
+                    <a href="/board/admin">版块管理</a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="/register">注册</a>
+                </li>
+                {% if user %}
+                <li>
+                    <a href="/topic/logout" data-method="post" rel="nofollow">退出</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/login" data-method="post" rel="nofollow">登录</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="main">
+    <div id="sidebar">
+        <div class="panel">
+            {% if user %}
+            <div class="inner">
+                <a>
+                    <img src="{{'/uploads/' + user.user_image + '?v=1&amp;s=30'}}" height="50" width="30"/>
+                </a>
+                <a>
+                    <span>{{ user.username }}</span>
+                    <div class="space clearfix"></div>
+                    <span class="signature">
+                        {{ user.signature }}
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="panel">
+            <div class='inner'>
+                <a href="/topic/new" class="create_topic_btn">
+                    <span class="span-success">发布话题</span>
+                </a>
+            </div>
+            {% else %}
+            <div class="inner">
+                <span>您尚未登录，请<a href="/login">登录</a>后再发布话题。</span>
+            </div>
+            {% endif %}
+            <div class='panel'>
+                <div class='header'>
+                    <span class='col_fade'>微信二维码</span>
+                </div>
+                <div class='inner cnode-app-download'>
+                    <img src="{{'/uploads/' + 'wechat.jpg'}}"/>
+                    <br/>
+                    <a href="https://github.com/wangchonglie/cnodejs" target="_blank">GitHub地址</a>
+                    <br/>
+                    <a>18665141213</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="content">
+        <div class="panel">
+            <div class="header">
+                {% for b in bs %}
+                <a href="/topic?tab={{ b.tab }}" class="topic-tab current-tab">
+                    {{ b.board_name }}
+                </a>
+                {% endfor %}
+            </div>
+            <div class="inner post">
+                <div class="topic_list">
+                    {% for m in ms %}
+                    <div class="cell">
+                        <div class="topic_title_wrapper">
+                            <a class="user_avatar pull-left">
+                                <img src="{{'/uploads/' + m.user().user_image + '?v=1&amp;s=30'}}" height="200"
+                                     width="200"/>
+                            </a>
+                            <span class="reply_count pull-left">
+                                <span class="count_of_replies" title="回复数">
+                                    {{ m.replies() | count()}}
+                                </span>
+                                    <span class="count_seperator">/</span>
+                                <span class="count_of_visits" title='点击数'>
+                                    {{ m.views-1 }}
+                                </span>
+                            </span>
+                            {% if m.top %}
+                                <a>
+                                    <span class='put_top'>置顶</span>
+                                </a>
+                            {% else %}
+                                <a>
+                                    <span class="topiclist-tab">{{ m.board_name() }}</span>
+                                </a>
+                            {% endif %}
+                            <a class="topic_title" href="{{ url_for('topic.detail', id=m.id) }}">
+                                <span>{{ m.title }}</span>
+                            </a>
+                            <a class='last_time pull-right'>
+                                <span class="last_active_time">{{ m.new_time(m.created_time) }}前</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class='pagination'>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</div><form action="/board/add" method="post">
+    <input name="board_name">
+    <br>
+    <button>添加</button>
+</form>
+<span>现有的版块</span>
+{% for b in bs %}
+{{ b.board_name }}
+<!--<a href="/board?delete={{ b.id }}">删除</a>-->
+<a href="{{ url_for('board.delete', id=b.id, token=token) }}">
+    <button>删除</button>
+</a>
+{% endfor %}
 </body>
 </html>
