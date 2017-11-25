@@ -28,13 +28,5 @@
 </span>
 <br>
 <span>个性签名：{{ user.signature }}</span>
-{% if user.id == current_user.id %}
-<h1>上传新的照片</h1>
-<form method="post" action={{ url_for(
-".add_img") }} enctype=multipart/form-data>
-<input type="file" name="file">
-<input type="submit" value="确认上传 ">
-</form>
-{% endif %}
 </body>
 </html>

@@ -49,6 +49,11 @@
                     <a href="{{ url_for('index.new_profile') }}">个人资料</a>
                 </li>
                 {% endif %}
+                {% if user.role ==0 %}
+                <li>
+                    <a href="/board/admin">版块管理</a>
+                </li>
+                {% endif %}
                 <li>
                     <a href="/register">注册</a>
                 </li>

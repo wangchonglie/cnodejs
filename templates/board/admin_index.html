@@ -1,7 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8"/>
+    <meta name='description' content='CNode：Node.js专业中文社区'>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="keywords" content="nodejs, node, express, connect, socket.io"/>
+    <meta name="referrer" content="always">
+    <meta name="author" content="EDP@TaoBao"/>
+    <meta property="wb:webmaster" content="617be6bd946c6b96"/>
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="/rss"/>
+    <link rel="icon" href="//o4j806krb.qnssl.com/public/images/cnode_icon_32.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="//o4j806krb.qnssl.com/public/stylesheets/index.min.9d1ebdbb.min.css" media="all"/>
+    <script src="//o4j806krb.qnssl.com/public/index.min.aeb155e1.min.js"></script>
+    <meta content="qgCcs8s6-QwIR9-t0aoQ-S7H7VZOf4902ct4" name="csrf-token">
+    <meta content="_csrf" name="csrf-param">
+    <title>项目说明</title>
     <title>Board-Admin</title>
     <style>a{TEXT-DECORATION:none}</style>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -85,75 +98,28 @@
                 </div>
             </div>
         </div>
-
     </div>
-    <div id="content">
-        <div class="panel">
-            <div class="header">
-                {% for b in bs %}
-                <a href="/topic?tab={{ b.tab }}" class="topic-tab current-tab">
-                    {{ b.board_name }}
-                </a>
-                {% endfor %}
+    <form action="/board/add" method="post">
+        <div class='control-group'>
+            <label class='control-label'>版块名称</label>
+            <div class='controls'>
+                <input class='input-xlarge' id='url' name='board_name' size='30' type='text'/>
             </div>
-            <div class="inner post">
-                <div class="topic_list">
-                    {% for m in ms %}
-                    <div class="cell">
-                        <div class="topic_title_wrapper">
-                            <a class="user_avatar pull-left">
-                                <img src="{{'/uploads/' + m.user().user_image + '?v=1&amp;s=30'}}" height="200"
-                                     width="200"/>
-                            </a>
-                            <span class="reply_count pull-left">
-                                <span class="count_of_replies" title="回复数">
-                                    {{ m.replies() | count()}}
-                                </span>
-                                    <span class="count_seperator">/</span>
-                                <span class="count_of_visits" title='点击数'>
-                                    {{ m.views-1 }}
-                                </span>
-                            </span>
-                            {% if m.top %}
-                                <a>
-                                    <span class='put_top'>置顶</span>
-                                </a>
-                            {% else %}
-                                <a>
-                                    <span class="topiclist-tab">{{ m.board_name() }}</span>
-                                </a>
-                            {% endif %}
-                            <a class="topic_title" href="{{ url_for('topic.detail', id=m.id) }}">
-                                <span>{{ m.title }}</span>
-                            </a>
-                            <a class='last_time pull-right'>
-                                <span class="last_active_time">{{ m.new_time(m.created_time) }}前</span>
-                            </a>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
+            <label class='control-label'>版块标签</label>
+            <div class='controls'>
+                <input class='input-xlarge' id='url' name='tab' size='30' type='text' required/>
             </div>
         </div>
-    </div>
+        <button class="btn btn-success">添加</button>
+    </form>
+    <span>现有的版块</span>
+    {% for b in bs %}
+    {{ b.board_name }}
+    <!--<a href="/board?delete={{ b.id }}">删除</a>-->
+    <a href="{{ url_for('board.delete', id=b.id, token=token) }}">
+        <button class="btn btn-danger">删除</button>
+    </a>
+    {% endfor %}
 </div>
-<div class='pagination'>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-</div><form action="/board/add" method="post">
-    <input name="board_name">
-    <br>
-    <button>添加</button>
-</form>
-<span>现有的版块</span>
-{% for b in bs %}
-{{ b.board_name }}
-<!--<a href="/board?delete={{ b.id }}">删除</a>-->
-<a href="{{ url_for('board.delete', id=b.id, token=token) }}">
-    <button>删除</button>
-</a>
-{% endfor %}
 </body>
 </html>
