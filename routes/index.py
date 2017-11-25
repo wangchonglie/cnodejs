@@ -125,5 +125,6 @@ def password_edit():
             print(new_password)
             u.password = u.salted_password(new_password)
     u.save()
-    return redirect(url_for('.new_profile'))
+    session.pop('user_id')
+    return redirect(url_for('.login'))
 
