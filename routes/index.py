@@ -1,4 +1,5 @@
 import os
+import json
 from flask import (
     render_template,
     request,
@@ -8,20 +9,21 @@ from flask import (
     Blueprint,
     send_from_directory,
 )
+from flask import jsonify
 from utils import log
 from models.user import User
 from config import accept_user_file_type, user_file_director
 from werkzeug.utils import secure_filename
 from routes import *
 
-
-def current_user():
-    # 从session 中找到user_id 字段，找不到就 -1
-    # 然后 User.find_by 来用id 找用户
-    # 找不到就返回None
-    uid = session.get('user_id', -1)
-    u = User.find_by(id=uid)
-    return u
+#
+# def current_user():
+#     # 从session 中找到user_id 字段，找不到就 -1
+#     # 然后 User.find_by 来用id 找用户
+#     # 找不到就返回None
+#     uid = session.get('user_id', -1)
+#     u = User.find_by(id=uid)
+#     return u
 
 main = Blueprint('index', __name__)
 
@@ -33,12 +35,13 @@ def register():
     return render_template("user/register.html")
 
 
-@main.route("/login")
+@main.route("/login",  methods=["GET", "POST"])
 def login():
+    print('session', session)
     return render_template("user/login.html")
 
 
-@main.route("/to_register", methods=["GET","POST"])
+@main.route("/to_register", methods=["GET", "POST"])
 def to_register():
     form = request.form
     u = User.register(form)
@@ -53,17 +56,16 @@ def profile():
     return render_template("user/profile.html", user=u, current_user=now_user)
 
 
-@main.route("/to_login", methods=["POST"])
-def to_login():
-    form = request.form
-    # log("登录里面的form有什么：", form)
-    u = User.validate_login(form)
-    if u is None:
-        return redirect(url_for('.register'))
-    else:
-        session['user_id'] = u.id
-        session.permanent = True
-        return redirect(url_for('topic.index'))
+# @main.route("/to_login", methods=["GET", "POST"])
+# def to_login():
+#     form = request.form
+#     u = User.validate_login(form)
+#     if u is None:
+#         return redirect(url_for('.register'))
+#     else:
+#         session['user_id'] = u.id
+#         session.permanent = True
+#         return redirect(url_for('topic.index'))
 
 
 def allow_file(filename):
@@ -127,4 +129,31 @@ def password_edit():
     u.save()
     session.pop('user_id')
     return redirect(url_for('.login'))
+
+
+@main.route("/to_login", methods=["GET", "POST"])
+def to_login():
+    data1 = request.get_json()
+    u = User()
+    username = data1['username']
+    pwd = data1['password']
+    u.password = pwd
+    user = User.find_by(username=username)
+    print(user.id)
+    data = {}
+    if user is not None and user.password == u.salted_password(pwd):
+        session['user_id'] = user.id
+        session.permanent = True
+        print(session)
+        data['result'] = True
+        return jsonify(data)
+    else:
+        data['result'] = False
+        return jsonify(data)
+
+
+
+
+
+
 

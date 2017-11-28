@@ -6,7 +6,9 @@ from utils import log
 
 def current_user():
     uid = session.get('user_id', '')
+    print('uid', uid)
     u = User.find_by(id=uid)
+    log('11', u)
     return u
 
 
