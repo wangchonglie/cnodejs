@@ -1,29 +1,32 @@
-from flask import render_template, request, redirect, url_for, Blueprint, abort
+import uuid
 from routes import *
+from flask import render_template, request, redirect, url_for, Blueprint, abort
 from models.topic import Topic
 from models.reply import Reply
 from models.board import Board
 
 main = Blueprint('topic', __name__)
 
-import uuid
 csrf_tokens = set()
 
 
 @main.route("/")
 def index():
     u = current_user()
+    bs = Board.all()
     tab = request.args.get('tab', 'all')
     page_no = int(request.args.get('pages', 1))
+    board = Board.find_by(tab=tab)
+    page_size = 15
     if tab == "all":
         filter_1 = {
             'deleted': False,
             'top': True,
             'board_id': {
-                    '$ne': 6
+                '$ne': 6
             }
         }
-        ms1 = Topic.find_page(query_filter=filter_1, page_no=page_no)
+        ms1 = Topic.find_page(query_filter=filter_1, skip=page_size * (page_no - 1))
         filter_2 = {
             'deleted': False,
             'top': False,
@@ -31,7 +34,11 @@ def index():
                 '$ne': 6
             }
         }
-        ms2 = Topic.find_page(query_filter=filter_2, page_no=page_no)
+        if len(ms1) != 0:
+            ms2 = Topic.find_page(query_filter=filter_2, page_size=15-len(ms1))
+        else:
+            skip = page_size * (page_no - 1)
+            ms2 = Topic.find_page(query_filter=filter_2, skip=skip)
         ms = ms1 + ms2
         # 每页15条数据，需要多少页
         pages = len(Topic.all()) / 15
@@ -39,7 +46,6 @@ def index():
             pages += 1
         pages = int(pages)
     else:
-        board = Board.find_by(tab=tab)
         if board is not None:
             filter_1 = {
                 'board_id': board.id,
@@ -51,7 +57,6 @@ def index():
         if isinstance(pages, float):
             pages += 1
         pages = int(pages)
-    bs = Board.all()
     return render_template("topic/index.html", pages=pages, user=u, ms=ms, bs=bs, tab=tab)
 
 
