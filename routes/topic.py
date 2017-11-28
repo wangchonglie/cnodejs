@@ -37,7 +37,8 @@ def index():
         if len(ms1) != 0:
             ms2 = Topic.find_page(query_filter=filter_2, page_size=15-len(ms1))
         else:
-            skip = page_size * (page_no - 1)
+            ts = Topic.find_all(top=True)
+            skip = page_size * (page_no - 1) - len(ts)
             ms2 = Topic.find_page(query_filter=filter_2, skip=skip)
         ms = ms1 + ms2
         # 每页15条数据，需要多少页
