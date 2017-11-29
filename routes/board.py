@@ -33,7 +33,6 @@ def add():
 def delete():
     delete_id = int(request.args.get('id'))
     board_name = Board.find(delete_id)
-    log(board_name)
     token = request.args.get('token')
     if token in csrf_tokens:
         csrf_tokens.remove(token)

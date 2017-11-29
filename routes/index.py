@@ -1,29 +1,18 @@
 import os
-import json
 from flask import (
     render_template,
     request,
     redirect,
-    session,
     url_for,
     Blueprint,
     send_from_directory,
 )
 from flask import jsonify
 from utils import log
-from models.user import User
 from config import accept_user_file_type, user_file_director
 from werkzeug.utils import secure_filename
 from routes import *
 
-#
-# def current_user():
-#     # 从session 中找到user_id 字段，找不到就 -1
-#     # 然后 User.find_by 来用id 找用户
-#     # 找不到就返回None
-#     uid = session.get('user_id', -1)
-#     u = User.find_by(id=uid)
-#     return u
 
 main = Blueprint('index', __name__)
 
@@ -37,15 +26,32 @@ def register():
 
 @main.route("/login",  methods=["GET", "POST"])
 def login():
-    print('session', session)
     return render_template("user/login.html")
 
 
-@main.route("/to_register", methods=["GET", "POST"])
-def to_register():
-    form = request.form
+# @main.route("/to_register", methods=["POST"])
+# def to_register():
+#     form = request.form
     u = User.register(form)
-    return redirect(url_for('.login'))
+#     return redirect(url_for('.login'))
+
+
+@main.route("/to_register", methods=["POST"])
+def to_register():
+    data_ajax = request.get_json()
+    u = User.register(data_ajax['username'], data_ajax['signature'], data_ajax['password'])
+    if u is not None:
+        data = {
+            'result': True,
+            'msg': '请登录。',
+        }
+        return jsonify(data)
+    else:
+        data = {
+            'result': False,
+            'msg': '请确认是否正确填写注册信息。',
+        }
+        return jsonify(data)
 
 
 @main.route("/profile")
@@ -66,6 +72,29 @@ def profile():
 #         session['user_id'] = u.id
 #         session.permanent = True
 #         return redirect(url_for('topic.index'))
+
+
+@main.route("/to_login", methods=["GET", "POST"])
+def to_login():
+    data_ajax = request.get_json()
+    u = User()
+    u.username = data_ajax['username']
+    u.password = data_ajax['password']
+    user = User.find_by(username=u.username)
+    if user is not None and user.password == u.salted_password(u.password):
+        session['user_id'] = user.id
+        session.permanent = True
+        data = {
+            'result': True,
+            'user_id': user.id,
+        }
+        return jsonify(data)
+    else:
+        data = {
+            'result': False,
+            'user_id': None,
+        }
+        return jsonify(data)
 
 
 def allow_file(filename):
@@ -121,35 +150,15 @@ def password_edit():
     u = current_user()
     if request.form.get('password') != '':
         password = request.form.get('password')
-        print(password)
         if u.password == u.salted_password(password) and request.form.get('new_password') != '':
             new_password = request.form.get('new_password')
-            print(new_password)
             u.password = u.salted_password(new_password)
     u.save()
     session.pop('user_id')
     return redirect(url_for('.login'))
 
 
-@main.route("/to_login", methods=["GET", "POST"])
-def to_login():
-    data1 = request.get_json()
-    u = User()
-    username = data1['username']
-    pwd = data1['password']
-    u.password = pwd
-    user = User.find_by(username=username)
-    print(user.id)
-    data = {}
-    if user is not None and user.password == u.salted_password(pwd):
-        session['user_id'] = user.id
-        session.permanent = True
-        print(session)
-        data['result'] = True
-        return jsonify(data)
-    else:
-        data['result'] = False
-        return jsonify(data)
+
 
 
 

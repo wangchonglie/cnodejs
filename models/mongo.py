@@ -187,7 +187,6 @@ class Mongo(object):
         # TODO 过滤掉被删除的元素
         kwargs['deleted'] = False
         l = cls._find(**kwargs)
-        # print('find one debug', kwargs, l)
         if len(l) > 0:
             return l[0]
         else:
@@ -271,7 +270,6 @@ class Mongo(object):
         time_now = int(time.time())
         distance_time = time_now - ct
         h = distance_time / 3600
-        log(h)
         if h < 1:
             minutes = int(distance_time / 60)
             return str(minutes) + '分钟'

@@ -52,7 +52,7 @@ def index():
                 'board_id': board.id,
                 'deleted': False
             }
-            ms = Topic.find_page(query_filter=filter_1, page_no=page_no)
+            ms = Topic.find_page(query_filter=filter_1)
         # 每页15条数据，需要多少页
         pages = len(Topic.find_all(board_id=board.id)) / 15
         if isinstance(pages, float):
@@ -80,7 +80,7 @@ def new():
 
 @main.route("/logout")
 def logout():
-    session.pop('user_id')
+    session.pop('user_id', '')
     return redirect(url_for('.index'))
 
 

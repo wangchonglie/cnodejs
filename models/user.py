@@ -26,13 +26,25 @@ class User(Mongo):
         # 返回摘要字符串
         return s.hexdigest()
 
+    # @classmethod
+    # def register(cls, form):
+    #     name = form.get('username', '')
+    #     pwd = form.get('password', '')
+    #     if len(name) > 6 and User.find_by(username=name) is None:
+    #         u = User.new(form)
+    #         u.password = u.salted_password(pwd)
+    #         u.save()
+    #         return u
+    #     else:
+    #         return None
+
     @classmethod
-    def register(cls, form):
-        name = form.get('username', '')
-        pwd = form.get('password', '')
-        if len(name) > 2 and User.find_by(username=name) is None:
-            u = User.new(form)
-            u.password = u.salted_password(pwd)
+    def register(cls, username, signature, password):
+        if len(username) >= 4 and User.find_by(username=username) is None:
+            u = User.new()
+            u.username = username
+            u.signature = signature
+            u.password = u.salted_password(password)
             u.save()
             return u
         else:
