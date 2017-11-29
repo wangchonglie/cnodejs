@@ -3,6 +3,8 @@ from pymongo import MongoClient
 from utils import log
 
 Charley = MongoClient()
+db = Charley.mydb
+db.authenticate("test", "test")
 
 
 def timestamp():
