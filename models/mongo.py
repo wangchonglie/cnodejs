@@ -2,9 +2,7 @@ import time
 from pymongo import MongoClient
 from utils import log
 
-client = MongoClient("127.0.0.1", 27017)
-client.database.authenticate("test", "test")
-db = client.database
+client = MongoClient()
 
 
 def timestamp():
