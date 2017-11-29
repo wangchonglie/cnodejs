@@ -2,9 +2,9 @@ import time
 from pymongo import MongoClient
 from utils import log
 
-Charley = MongoClient()
-db = Charley.mydb
-db.authenticate("test", "test")
+client = MongoClient("120.79.3.59", 27017)
+client.database.authenticate("test", "test")
+db = client.database
 
 
 def timestamp():
@@ -27,7 +27,7 @@ def next_id(name):
         'new': True,
     }
     # 存储数据的id
-    doc = Charley.db['data_id']
+    doc = client.db['data_id']
     # find_and_modify 是一个原子操作函数
     new_id = doc.find_and_modify(**kwargs).get('seq')
     return new_id
@@ -52,7 +52,7 @@ class Mongo(object):
         return cls.find_one(**kwargs) is not None
 
     def mongos(self, name):
-        return Charley.db[name]._find()
+        return client.db[name]._find()
 
     def __repr__(self):
         class_name = self.__class__.__name__
@@ -126,7 +126,7 @@ class Mongo(object):
     def all(cls):
         # 按照id升序排序
         # name = cls.__name
-        # ds = Charley.db[name].find()
+        # ds = client.db[name].find()
         # l = [cls._new_with_bson(d) for d in ds]
         # return l
         return cls._find()
@@ -139,7 +139,7 @@ class Mongo(object):
         kwargs['deleted'] = False
         flag_sort = '__sort'
         sort = kwargs.pop(flag_sort, None)
-        ds = Charley.db[name].find(kwargs)
+        ds = client.db[name].find(kwargs)
         if sort is not None:
             ds = ds.sort(sort)
         l = [cls._new_with_bson(d) for d in ds]
@@ -149,7 +149,7 @@ class Mongo(object):
     @classmethod
     def _find_raw(cls, **kwargs):
         name = cls.__name__
-        ds = Charley.db[name]._find(kwargs)
+        ds = client.db[name]._find(kwargs)
         l = [d for d in ds]
         return l
 
@@ -189,6 +189,7 @@ class Mongo(object):
         # TODO 过滤掉被删除的元素
         kwargs['deleted'] = False
         l = cls._find(**kwargs)
+        # print('find one debug', kwargs, l)
         if len(l) > 0:
             return l[0]
         else:
@@ -224,7 +225,7 @@ class Mongo(object):
 
     def save(self):
         name = self.__class__.__name__
-        Charley.db[name].save(self.__dict__)
+        client.db[name].save(self.__dict__)
 
     def delete(self):
         name = self.__class__.__name__
@@ -234,7 +235,7 @@ class Mongo(object):
         values = {
             'deleted': True
         }
-        # Charley.db[name].update_one(query, values)
+        # client.db[name].update_one(query, values)
         self.deleted = True
         self.save()
 
@@ -263,7 +264,7 @@ class Mongo(object):
         query = {
             fk: self.id,
         }
-        count = Charley.db[name]._find(query).count()
+        count = client.db[name]._find(query).count()
         return count
 
     # 查看发布时间
@@ -272,6 +273,7 @@ class Mongo(object):
         time_now = int(time.time())
         distance_time = time_now - ct
         h = distance_time / 3600
+        log(h)
         if h < 1:
             minutes = int(distance_time / 60)
             return str(minutes) + '分钟'
