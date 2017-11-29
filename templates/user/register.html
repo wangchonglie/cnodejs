@@ -46,6 +46,8 @@
             });
          });
     });
+
+
     </script>
 </head>
 <body>
@@ -90,7 +92,7 @@
                     <div class='control-group'>
                         <label class='control-label' for='name'>用户名</label>
                         <div class='controls'>
-                            <input class='input-xlarge' id='username' name='username' size='30' type='text'/>
+                            <input class='input-xlarge' id='username' name='username' size='30' type='text' required/>
                         </div>
                     </div>
                     <div class='control-group'>
@@ -102,13 +104,16 @@
                     <div class='control-group'>
                         <label class='control-label' for='pass'>密码</label>
                         <div class='controls'>
-                            <input class='input-xlarge' id='password' name='password' size='30' type='password'/>
+                            <input class='input-xlarge' id='password' name='password' size='30' type='password'
+                                   required/>
                         </div>
                     </div>
-                    <div class='form-actions'>
-                        <input type='submit' class='span-primary' id="register" value='注册'/>
-                    </div>
                 </form>
+                <div class='form-actions'>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type='submit' class='span-primary' id="register" value='注册'/>
+                </div>
             </div>
         </div>
     </div>

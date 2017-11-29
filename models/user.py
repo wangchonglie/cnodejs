@@ -40,15 +40,21 @@ class User(Mongo):
 
     @classmethod
     def register(cls, username, signature, password):
-        if len(username) >= 4 and User.find_by(username=username) is None:
+        result = {}
+        if User.find_by(username=username) is not None:
+            result['msg'] = '该用户名已经被注册！'
+            return result
+        if len(username) >= 4 and len(password) >=6:
             u = User.new()
             u.username = username
             u.signature = signature
             u.password = u.salted_password(password)
             u.save()
-            return u
+            result['msg'] = '注册成功！'
+            return result
         else:
-            return None
+            result['msg'] = '用户名和密码应4位或以上！'
+            return result
 
     @classmethod
     def validate_login(cls, form):

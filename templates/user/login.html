@@ -40,11 +40,13 @@
                     }
                 },
                 error:function(){
-                    alert('网络错误，提交失败！')
+                    alert('网络错误，请重新登录！')
+                    window.location.href='/login';
                 }
             });
          });
     });
+
 
     </script>
 </head>
@@ -99,10 +101,12 @@
                             <input class='input-xlarge' id='password' name='password' size='30' type='password'/>
                         </div>
                     </div>
-                    <div class='form-actions'>
-                        <input type='submit' id="login" class='span-primary' value='登录'/>
-                    </div>
                 </form>
+                <div class='form-actions'>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type='submit' id="login" class='span-primary' value='登录'/>
+                </div>
             </div>
         </div>
     </div>

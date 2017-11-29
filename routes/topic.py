@@ -106,7 +106,6 @@ def delete():
             rs = Reply.find_all(topic_id=delete_id)
             for r in rs:
                 r.delete()
-
             return redirect(url_for('.index'))
     else:
         abort(403)
