@@ -93,7 +93,7 @@ def add():
 
 
 @main.route("/delete")
-@admin_permission
+@login_permission
 def delete():
     delete_id = int(request.args.get('id'))
     delete_name = Topic.find(delete_id)
