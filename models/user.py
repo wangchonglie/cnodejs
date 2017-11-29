@@ -44,7 +44,7 @@ class User(Mongo):
         if User.find_by(username=username) is not None:
             result['msg'] = '该用户名已经被注册！'
             return result
-        if len(username) >= 4 and len(password) >=6:
+        if len(username) >= 4 and len(password) >= 5:
             u = User.new()
             u.username = username
             u.signature = signature
