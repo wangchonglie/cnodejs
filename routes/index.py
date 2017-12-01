@@ -90,7 +90,10 @@ def to_login():
     if user is not None and user.password == u.salted_password(u.password):
         session['user_id'] = user.id
         session.permanent = True
-        data = {"result":True,"user_id":user.id}
+        data = {
+            "result": True,
+            "user_id": user.id
+        }
         return jsonify(data)
     else:
         data = {"result":False,"user_id":None}
@@ -130,15 +133,28 @@ def uploads(filename):
 @login_permission
 def profile_edit():
     u = current_user()
-    if request.form.get('username') != '':
-        u.username = request.form.get('username')
-    if request.form.get('signature') != '':
-        u.signature = request.form.get('signature')
-    u.save()
-    return redirect(url_for('.new_profile'))
+    data_ajax = request.get_json()
+    if data_ajax['username'] != '' or data_ajax['signature'] != '':
+        if data_ajax['username'] != '':
+            u.username = data_ajax['username']
+        if data_ajax['signature'] != '':
+            u.signature = data_ajax['signature']
+        u.save()
+        data = {
+            "result": True,
+            "msg": "修改成功。",
+        }
+        return jsonify(data)
+    else:
+        data = {
+            "result": True,
+            "msg": "您未修改任何内容，请确认。",
+        }
+        return jsonify(data)
 
 
 @main.route("/new_profile")
+@login_permission
 def new_profile():
     u = current_user()
     return render_template("user/profile_edit.html", user=u)
@@ -148,21 +164,34 @@ def new_profile():
 @login_permission
 def password_edit():
     u = current_user()
-    if request.form.get('password') != '':
-        password = request.form.get('password')
-        if u.password == u.salted_password(password) and request.form.get('new_password') != '':
-            new_password = request.form.get('new_password')
-            u.password = u.salted_password(new_password)
-    u.save()
-    session.pop('user_id')
-    return redirect(url_for('.login'))
-
-
-
-
-
-
-
-
-
-
+    data_ajax = request.get_json()
+    print(data_ajax)
+    if data_ajax['old_password'] != '' and data_ajax['new_password'] != '':
+        if u.password == u.salted_password(data_ajax['old_password']):
+            if len(data_ajax['new_password']) > 4:
+                u.password = u.salted_password(data_ajax['new_password'])
+                u.save()
+                session.pop('user_id')
+                data = {
+                    "result": True,
+                    "msg": "修改成功。",
+                }
+                return jsonify(data)
+            else:
+                data = {
+                    "result": False,
+                    "msg": "新密码要4位以上。",
+                }
+                return jsonify(data)
+        else:
+            data = {
+                "result": False,
+                "msg": "当前密码错误，请确认。",
+            }
+            return jsonify(data)
+    else:
+        data = {
+            "result": False,
+            "msg": "当前密码或新密码未输入，请确认。",
+        }
+        return jsonify(data)

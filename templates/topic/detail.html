@@ -31,7 +31,7 @@
                     <a href="/topic/about">项目说明</a>
                 </li>
                 <li>
-                    <a href="{{ url_for('index.new_profile', profile_id=user.id) }}">个人资料</a>
+                    <a href="{{ url_for('index.new_profile') }}">个人资料</a>
                 </li>
                 {% if user.role ==0 %}
                 <li>

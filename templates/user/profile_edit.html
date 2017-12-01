@@ -7,30 +7,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="keywords" content="nodejs, node, express, connect, socket.io"/>
     <meta name="referrer" content="always">
-
-
     <meta name="author" content="EDP@TaoBao"/>
-
     <meta property="wb:webmaster" content="617be6bd946c6b96"/>
-
-
     <link title="RSS" type="application/rss+xml" rel="alternate" href="/rss"/>
-
-
     <link rel="icon" href="//o4j806krb.qnssl.com/public/images/cnode_icon_32.png" type="image/x-icon"/>
-
-
-    <!-- style -->
     <link rel="stylesheet" href="//o4j806krb.qnssl.com/public/stylesheets/index.min.9d1ebdbb.min.css" media="all"/>
-
-
-    <!-- scripts -->
     <script src="//o4j806krb.qnssl.com/public/index.min.aeb155e1.min.js"></script>
-
     <title>修改个人信息</title>
-
     <meta content="_csrf" name="csrf-param">
+    <script src="//o4j806krb.qnssl.com/public/index.min.aeb155e1.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
     <meta content="kZuceHj7-srjPOcqw_9LOfUqgoOj7bzrLFQk" name="csrf-token">
+    <script type=text/javascript>
+        $(function(){
+            $("#save").on('click', function(){
+                $.ajax({
+                     type: 'post',
+                     contentType: "application/json; charset=UTF-8",
+                     url: '/profile_edit',
+                     dataType: 'json',
+                     data:JSON.stringify({
+                          'username': $('#username').val(),
+                          'signature': $('#signature').val(),
+                     }),
+                     success:function(data){
+                        if(data.result){
+                            alert(data.msg)
+                            window.location.href='/new_profile';
+                        }else{
+                            alert(data.msg)
+                            window.location.href='/new_profile';
+                        }
+                    },
+                    error:function(){
+                        alert('网络错误，请重新提交！')
+                        window.location.href='/new_profile';
+                    }
+                });
+             });
+        });
+        $(function(){
+            $("#edit").on('click', function(){
+                $.ajax({
+                     type: 'post',
+                     contentType: "application/json; charset=UTF-8",
+                     url: '/password_edit',
+                     dataType: 'json',
+                     data:JSON.stringify({
+                          'old_password': $('#old_pass').val(),
+                          'new_password': $('#new_pass').val(),
+                     }),
+                     success:function(data){
+                        if(data.result){
+                            alert(data.msg)
+                            window.location.href='/login';
+                        }else{
+                            alert(data.msg)
+                            window.location.href='/new_profile';
+                        }
+                    },
+                    error:function(){
+                        alert('网络错误，请重新提交！')
+                        window.location.href='/new_profile';
+                    }
+                });
+             });
+        });
+    </script>
 </head>
 <body>
 <div class='navbar'>
@@ -121,7 +164,7 @@
                 <span class='col_fade'>个人资料设置</span>
             </div>
             <div class='inner'>
-                <form id='setting_form' class='form-horizontal' action='/profile_edit' method='post'>
+                <form id='setting_form' class='form-horizontal'>
                     <div class='control-group'>
                         <label class='control-label'>用户角色</label>
                         <div class='controls'>
@@ -137,7 +180,7 @@
                     <div class='control-group'>
                         <label class='control-label'>用户名</label>
                         <div class='controls'>
-                            <input class='input-xlarge' id='url' name='username' size='30' type='text' value=""
+                            <input class='input-xlarge' id='username' name='username' size='30' type='text' value=""
                                    placeholder="{{ user.username }}"/>
                         </div>
                     </div>
@@ -149,10 +192,12 @@
                                       placeholder="{{ user.signature }}"></textarea>
                         </div>
                     </div>
-                    <div class='form-actions'>
-                        <input type='submit' class='span-primary submit_btn' value='保存设置'/>
-                    </div>
                 </form>
+                <div class='form-actions'>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type='submit' id="save" class='span-primary' value='保存设置'/>
+                </div>
             </div>
         </div>
 
@@ -161,7 +206,7 @@
                 <span class='col_fade'>更改密码</span>
             </div>
             <div class='inner'>
-                <form id='change_pass_form' class='form-horizontal' action='/password_edit' method='post'>
+                <form id='change_pass_form' class='form-horizontal'>
                     <div class='control-group'>
                         <label class='control-label' for='old_pass'>当前密码</label>
 
@@ -176,16 +221,19 @@
                             <input class='input-xlarge' type='password' id='new_pass' name='new_password' size='30'/>
                         </div>
                     </div>
-                    <div class='form-actions'>
-                        <input type='submit' class='span-primary submit_btn' data-loading-text="更改中.." value='更改密码'/>
-                    </div>
                 </form>
+                <div class='form-actions'>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type='submit' id="edit" class='span-primary' value='更改密码'/>
+                </div>
             </div>
             <div class='panel'>
                 <div class='header'>
                     <span class='col_fade'>上传新头像</span>
                 </div>
-                <form method="post" action={{ url_for(".add_img") }} enctype=multipart/form-data>
+                <form method="post" action={{ url_for(
+                ".add_img") }} enctype=multipart/form-data>
                 <input type="file" name="file">
                 <input type="submit" value="确认上传 ">
                 </form>
