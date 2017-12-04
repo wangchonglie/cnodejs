@@ -1,6 +1,4 @@
-import time
-from models import Model
-from models.mongo import Mongo
+from models import Mongo
 
 
 class Board(Mongo):

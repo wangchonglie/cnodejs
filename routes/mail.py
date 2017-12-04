@@ -1,15 +1,10 @@
 from flask import render_template, request, redirect, url_for, Blueprint, abort
 from routes import *
-from utils import log
-
-from models.topic import Topic
-from models.reply import Reply
 from models.mail import Mail
 
 main = Blueprint('mail', __name__)
 
 
-import uuid
 csrf_tokens = set()
 
 

@@ -1,5 +1,4 @@
-import time
-from .mongo import Mongo
+from models import Mongo
 from .user import User
 
 

@@ -1,4 +1,4 @@
-from .mongo import Mongo
+from models import Mongo
 
 
 
@@ -25,18 +25,6 @@ class User(Mongo):
         s = hashlib.sha256(p)
         # 返回摘要字符串
         return s.hexdigest()
-
-    # @classmethod
-    # def register(cls, form):
-    #     name = form.get('username', '')
-    #     pwd = form.get('password', '')
-    #     if len(name) > 6 and User.find_by(username=name) is None:
-    #         u = User.new(form)
-    #         u.password = u.salted_password(pwd)
-    #         u.save()
-    #         return u
-    #     else:
-    #         return None
 
     @classmethod
     def register(cls, username, signature, password):

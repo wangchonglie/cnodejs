@@ -1,9 +1,8 @@
 from pymongo import MongoClient
-from .mongo import Mongo
+from models import Mongo
 from .user import User
 from .reply import Reply
 from .board import Board
-from utils import log
 
 
 class Topic(Mongo):
@@ -44,7 +43,7 @@ class Topic(Mongo):
         return board.board_name
 
     @classmethod
-    def find_page(cls, query_filter=None, page_size=15, skip=0, **kwargs):
+    def find_page(cls, query_filter=None, page_size=15, skip=0):
         client = MongoClient("localhost", 27017)
         collection = client.db['Topic']
         ds = collection.find(query_filter).sort([('created_time', -1)]).limit(page_size).skip(skip)

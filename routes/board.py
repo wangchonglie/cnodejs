@@ -1,12 +1,9 @@
+import uuid
 from flask import render_template, request, redirect, url_for, Blueprint
 from routes import *
-from utils import log
 from models.board import Board
 
 main = Blueprint('board', __name__)
-
-
-import uuid
 csrf_tokens = set()
 
 

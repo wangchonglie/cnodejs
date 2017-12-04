@@ -1,5 +1,4 @@
 import os
-import json
 from flask import (
     render_template,
     request,
@@ -27,13 +26,6 @@ def register():
 @main.route("/login", methods=["GET", "POST"])
 def login():
     return render_template("user/login.html")
-
-
-# @main.route("/to_register", methods=["POST"])
-# def to_register():
-#     form = request.form
-    u = User.register(form)
-#     return redirect(url_for('.login'))
 
 
 @main.route("/to_register", methods=["POST"])
@@ -66,18 +58,6 @@ def profile():
     u = User.find_by(id=profile_id)
     now_user = current_user()
     return render_template("user/profile.html", user=u, current_user=now_user)
-
-
-# @main.route("/to_login", methods=["GET", "POST"])
-# def to_login():
-#     form = request.form
-#     u = User.validate_login(form)
-#     if u is None:
-#         return redirect(url_for('.register'))
-#     else:
-#         session['user_id'] = u.id
-#         session.permanent = True
-#         return redirect(url_for('topic.index'))
 
 
 @main.route("/to_login", methods=["POST"])
