@@ -40,7 +40,10 @@ class Topic(Mongo):
 
     def board_name(self):
         board = Board.find(self.board_id)
-        return board.board_name
+        if board is not None:
+            return board.board_name
+        else:
+            return None
 
     @classmethod
     def find_page(cls, query_filter=None, page_size=15, skip=0):

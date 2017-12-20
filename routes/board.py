@@ -2,6 +2,7 @@ import uuid
 from flask import render_template, request, redirect, url_for, Blueprint
 from routes import *
 from models.board import Board
+from models.topic import Topic
 
 main = Blueprint('board', __name__)
 csrf_tokens = set()
@@ -34,5 +35,9 @@ def delete():
     if token in csrf_tokens:
         csrf_tokens.remove(token)
         board_name.delete()
+        ts = Topic.find_all(board_id=delete_id)
+        for t in ts:
+            t.deleted = True
+            t.save()
     return redirect(url_for('.index'))
 
