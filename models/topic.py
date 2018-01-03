@@ -36,7 +36,10 @@ class Topic(Mongo):
 
     def user(self):
         m = User.find_by(id=self.user_id)
-        return m
+        if m is not None:
+            return m
+        else:
+            return None
 
     def board_name(self):
         board = Board.find(self.board_id)

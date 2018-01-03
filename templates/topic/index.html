@@ -108,10 +108,12 @@
                     {% for m in ms %}
                     <div class="cell">
                         <div class="topic_title_wrapper">
+                            {% if m %}
                             <a class="user_avatar pull-left">
                                 <img src="{{'/uploads/' + m.user().user_image + '?v=1&amp;s=30'}}" height="200"
                                      width="200"/>
                             </a>
+                            {% endif %}
                             <span class="reply_count pull-left">
                                 <span class="count_of_replies" title="回复数">
                                     {{ m.replies() | count()}}
@@ -122,13 +124,13 @@
                                 </span>
                             </span>
                             {% if m.top %}
-                                <a>
-                                    <span class='put_top'>置顶</span>
-                                </a>
+                            <a>
+                                <span class='put_top'>置顶</span>
+                            </a>
                             {% else %}
-                                <a>
-                                    <span class="topiclist-tab">{{ m.board_name() }}</span>
-                                </a>
+                            <a>
+                                <span class="topiclist-tab">{{ m.board_name() }}</span>
+                            </a>
                             {% endif %}
                             <a class="topic_title" href="{{ url_for('topic.detail', id=m.id) }}">
                                 <span>{{ m.title }}</span>
